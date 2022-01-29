@@ -97,6 +97,7 @@
                     password: pass
                 }
                 const url = "https://proyecto-fundacion.herokuapp.com/api/Personal/Login";
+                //const url = "https://localhost:44313/api/Personal/Login";
                 fetch(url, {
                     method: "POST",
                     headers: {
@@ -108,12 +109,15 @@
                         password: pass
                     }),
                 })
-                    .then((response) => response.json())
+                    .then((response) => response)
                     .then((data) => {
                         console.log(data);
 
-                        if (data.error) {
-                            alert("Error Password or Username"); /*displays error message*/
+                        if (data.status != 200) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Usuario y/o password incorrectos',
+                            })
                             return false;
                         } else {
                             Swal.fire({
