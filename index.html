@@ -61,7 +61,6 @@
             <button class="w-100 btn btn-lg btn-primary" id="boton" type="submit">Login</button>
             <br>
             <br>
-            <a href="" class="btn btn-secondary">Registrarse</a>
 
         </form>
     </main>
@@ -118,6 +117,7 @@
                                 icon: 'error',
                                 title: 'Usuario y/o password incorrectos',
                             })
+
                             return false;
                         } else {
                             Swal.fire({
@@ -128,7 +128,8 @@
                                 timer: 1500,
                             })
                                 .then(() => {
-                                    window.location = 'https://fundacionbariloche.org.ar/'
+                                    //localStorage.setItem("email", data.body.email);
+                                    window.location = '/main.html'
                                 })
                             //window.location.replace("https://www.google.com") /*opens the target page while Id & password matches*/
                         }
