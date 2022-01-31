@@ -38,7 +38,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Cerrar Sesion</a>
+                    <button onclick="cerrarSesion()" class="btn btn-primary">Cerrar Sesion</button>
                 </li>
             </ul>
 
@@ -99,52 +99,107 @@
 
     <script>
 
-
-
-        // $(document).ready(function () {
-        //     $.ajax({
-        //         url: "https://proyecto-fundacion.herokuapp.com/api/proyecto",
-        //         type: "GET",
-
-        //         success: function (result) {
-        //             crearTabla(result.return);
-        //         },
-        //         error: function (error) {
-        //             console.log(error);
-        //         }
-        //     });
-        // });
-
-        fetch('https://proyecto-fundacion.herokuapp.com/api/proyecto')
-            .then(response => response.json())
-            .then((data) => {
-                crearTabla(data)
+        var mail = localStorage.getItem("email");
+        if (mail == "null" || mail === undefined) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ingrese al sistema primero',
             })
 
+        } else {
+            fetch('https://proyecto-fundacion.herokuapp.com/api/proyecto')
+                .then(response => response.json())
+                .then((data) => {
+                    crearTabla(data)
+                })
 
+            function crearTabla(datos) {
+                for (var i = 0; i < datos.length; i++) {
+                    let listaAreas = datos[i].listaAreas;
+                    let mesesInicio = datos[i].mesInicio;
 
-        function crearTabla(datos) {
-            for (var i = 0; i < datos.length; i++) {
-                var html = "<tr>";
-                html += "<td>" + datos[i].id + "</td>";
-                html += "<td>" + datos[i].titulo + "</td>";
-                html += "<td>" + datos[i].paisRegion + "</td>";
-                html += "<td>" + datos[i].mesInicio + "</td>";
-                html += "<td>" + datos[i].anioInicio + "</td>";
-                html += "<td>" + datos[i].mesFinazalizacion + "</td>";
-                html += "<td>" + datos[i].anioFinalizacion + "</td>";
-                html += "<td>" + datos[i].fichaLista + "</td>";
-                html += "<td>" + datos[i].listaAreas + "</td>";
-                html += "<td>" + datos[i].departamentos + "</td>";
+                    let mes = "";
+                    let areas = "";
 
-                html += "</tr>";
-                $("#cuerpoTabla").append(html);
+                    var html = "<tr>";
+                    html += "<td>" + datos[i].id + "</td>";
+                    html += "<td>" + datos[i].titulo + "</td>";
+                    html += "<td>" + datos[i].paisRegion + "</td>";
+
+                    switch (mesesInicio) {
+                        case 0:
+                            mes = "Enero";
+                            break;
+                        case 1:
+                            mes = "Febrero";
+                            break;
+                        case 2:
+                            mes = "Marzo";
+                            break;
+                        case 3:
+                            mes = "Abril";
+                            break;
+                        case 4:
+                            mes = "Mayo";
+                            break;
+                        case 5:
+                            mes = "Junio";
+                            break;
+                        case 6:
+                            mes = "Julio";
+                            break;
+                        case 7:
+                            mes = "Agosto";
+                            break;
+                        case 8:
+                            mes = "Septiembre";
+                            break;
+                        case 9:
+                            mes = "Octubre";
+                            break;
+                        case 10:
+                            mes = "Noviembre";
+                            break;
+                        case 11:
+                            mes = "Diciembre";
+                            break;
+                        default:
+                            mes = "-";
+                            break;
+                    }
+
+                    html += "<td>" + mes + "</td>";
+                    html += "<td>" + datos[i].anioInicio + "</td>";
+                    html += "<td>" + datos[i].mesFinalizacion + "</td>";
+                    html += "<td>" + datos[i].anioFinalizacion + "</td>";
+                    html += "<td>" + datos[i].fichaLista + "</td>";
+
+                    for (let j = 0; j < listaAreas.length; j++) {
+                        if (j === listaAreas.length - 1) {
+                            areas += listaAreas[j].area1;
+                        } else {
+                            areas += listaAreas[j].area1 + " - ";
+                        }
+
+                    }
+                    html += "<td>" + areas + "</td>";
+                    html += "<td>" + datos[i].departamentos + "</td>";
+
+                    html += "</tr>";
+                    $("#cuerpoTabla").append(html);
+                }
             }
+
+            $(document).ready(function () {
+                $('#users').DataTable();
+            });
         }
 
-        $(document).ready(function () {
-            $('#users').DataTable();
-        });
+        function cerrarSesion() {
+            localStorage.setItem("email", null);
+            window.location = "/index.html";
+        }
+
 
     </script>
 </body>

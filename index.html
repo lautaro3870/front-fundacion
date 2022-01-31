@@ -128,13 +128,11 @@
                                 timer: 1500,
                             })
                                 .then(() => {
-                                    //localStorage.setItem("email", data.body.email);
+                                    localStorage.setItem("email", email);
                                     window.location = '/main.html'
                                 })
                             //window.location.replace("https://www.google.com") /*opens the target page while Id & password matches*/
                         }
-
-
 
                     })
                     .catch((err) => {
