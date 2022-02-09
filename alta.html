@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Alta</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="main.html">Inicio <span class="sr-only">(current)</span></a>
+                </li>
+
+
+            </ul>
+
+        </div>
+    </nav>
+
+    <form class="container">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">Email</label>
+                <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPassword4">Password</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputAddress">Address</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+        </div>
+        <div class="form-group">
+            <label for="inputAddress2">Address 2</label>
+            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Personal</label>
+                <select id="txtPersonal" class="form-control">
+                    <!-- <option selected>Seleccione</option> -->
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Areas</label>
+                <select id="txtAreas" class="form-control">
+                    <!-- <option selected>Seleccione</option> -->
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputZip">Zip</label>
+                <input type="text" class="form-control" id="inputZip">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                    Check me out
+                </label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+
+        // $(document).ready(function () {
+        //     $.ajax({
+        //         url: "https://localhost:44313/api/Areas",
+        //         type: "GET",
+        //         success: function (result) {
+        //             if (result.ok) {
+        //                 resultadoS = result.return;
+        //                 cargarCombo(resultadoS);
+        //                 console.log(resultadoS);
+        //             } else {
+        //                 alert(result.error);
+        //             }
+        //         },
+        //         error: function (error) {
+        //             alert("Problemas con acceder a los sexos");
+        //         }
+
+        //     })
+        // })
+
+        var mail = localStorage.getItem("email");
+        if (mail == "null" || mail === undefined) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ingrese al sistema primero',
+                timer: 1500,
+            })
+            setTimeout(() => {
+                window.location = '/index.html'
+            }, 3000)
+
+        }
+        else {
+            fetch('https://proyecto-fundacion.herokuapp.com/api/Areas')
+                .then(response => response.json())
+                .then((data) => {
+                    cargarCombo(data)
+                })
+
+            fetch('https://proyecto-fundacion.herokuapp.com/api/Personal')
+                .then(response => response.json())
+                .then((data) => {
+                    cargarComboPersonal(data)
+                })
+
+
+            function cargarCombo(datos) {
+                var html = "<option value=''>Selecione</option>";
+                $("#txtAreas").append(html);
+                select = document.getElementById("txtAreas");
+                for (let i = 0; i < datos.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = datos[i].id;
+                    option.text = datos[i].area1;
+                    select.add(option);
+                    //console.log(datos[i].area1);
+                }
+            }
+
+            function cargarComboPersonal(datos) {
+                var html = "<option value=''>Selecione</option>";
+                $("#txtPersonal").append(html);
+                select = document.getElementById("txtPersonal");
+                for (let i = 0; i < datos.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = datos[i].id;
+                    option.text = datos[i].nombre;
+                    select.add(option);
+                    //console.log(datos[i].area1);
+                }
+            }
+        }
+
+
+
+    </script>
+</body>
+
+</html>

@@ -34,7 +34,10 @@
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="alta.html">Alta</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cambioPass.html">Cambio Password</a>
                 </li>
 
                 <li class="nav-item">
@@ -57,9 +60,9 @@
                     <th data-field="AnioInicio">Año Inicio</th>
                     <th data-field="MesFin">Mes Fin</th>
                     <th data-field="AnioFin">Año Fin</th>
-                    <th data-field="FichaLista">Lista</th>
                     <th data-field="Areas">Areas</th>
                     <th data-field="Departamentos">Departamentos</th>
+                    <th data-field="FichaLista">Lista</th>
                 </tr>
             </thead>
             <tbody id="cuerpoTabla">
@@ -99,67 +102,9 @@
 
     <script>
 
-        var mail = localStorage.getItem("email");
-        if (mail == "null" || mail === undefined) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Ingrese al sistema primero',
-            })
-
-        } else {
-            fetch('https://proyecto-fundacion.herokuapp.com/api/proyecto')
-                .then(response => response.json())
-                .then((data) => {
-                    crearTabla(data)
-                })
-
-            function crearTabla(datos) {
-                for (var i = 0; i < datos.length; i++) {
-                    let listaAreas = datos[i].listaAreas;
-                    let mesesInicio = datos[i].mesInicio;
-                    let mesesFin = datos[i].mesFinalizacion;
-
-
-                    let areas = "";
-
-                    var html = "<tr>";
-                    html += "<td>" + datos[i].id + "</td>";
-                    html += "<td>" + datos[i].titulo + "</td>";
-                    html += "<td>" + datos[i].paisRegion + "</td>";
-
-
-
-                    html += "<td>" + meses(mesesInicio) + "</td>";
-                    html += "<td>" + datos[i].anioInicio + "</td>";
-                    html += "<td>" + meses(mesesFin) + "</td>";
-                    html += "<td>" + datos[i].anioFinalizacion + "</td>";
-                    html += "<td>" + datos[i].fichaLista + "</td>";
-
-                    for (let j = 0; j < listaAreas.length; j++) {
-                        if (j === listaAreas.length - 1) {
-                            areas += listaAreas[j].area1;
-                        } else {
-                            areas += listaAreas[j].area1 + " - ";
-                        }
-
-                    }
-                    html += "<td>" + areas + "</td>";
-                    html += "<td>" + datos[i].departamentos + "</td>";
-
-                    html += "</tr>";
-                    $("#cuerpoTabla").append(html);
-                }
-            }
-
-            $(document).ready(function () {
-                $('#users').DataTable();
-            });
-        }
-
-        function cerrarSesion() {
-            localStorage.setItem("email", null);
-            window.location = "/index.html";
-        }
+        $(document).ready(function () {
+            $('#users').DataTable();
+        });
 
         const meses = (entrada) => {
             let mes = "";
@@ -205,6 +150,72 @@
                     break;
             }
         }
+
+        var mail = localStorage.getItem("email");
+        if (mail == "null" || mail === undefined) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ingrese al sistema primero',
+            })
+
+        } else {
+            fetch('https://proyecto-fundacion.herokuapp.com/api/proyecto')
+                .then(response => response.json())
+                .then((data) => {
+                    crearTabla(data)
+                })
+
+            function crearTabla(datos) {
+                for (var i = 0; i < datos.length; i++) {
+                    let listaAreas = datos[i].listaAreas;
+                    let mesesInicio = datos[i].mesInicio;
+                    let mesesFin = datos[i].mesFinalizacion;
+
+
+                    let areas = "";
+
+                    var html = "<tr>";
+                    html += "<td>" + datos[i].id + "</td>";
+                    html += "<td>" + datos[i].titulo + "</td>";
+                    html += "<td>" + datos[i].paisRegion + "</td>";
+                    html += "<td>" + meses(mesesInicio) + "</td>";
+                    html += "<td>" + datos[i].anioInicio + "</td>";
+                    html += "<td>" + meses(mesesFin) + "</td>";
+                    html += "<td>" + datos[i].anioFinalizacion + "</td>";
+
+
+                    for (let j = 0; j < listaAreas.length; j++) {
+                        if (j === listaAreas.length - 1) {
+                            areas += listaAreas[j].area1;
+                        } else {
+                            areas += listaAreas[j].area1 + " - ";
+                        }
+
+                    }
+                    html += "<td>" + areas + "</td>";
+                    if (datos[i].departamentos === null) {
+                        html += "<td>" + "-" + "</td>";
+                    }
+                    else {
+                        html += "<td>" + datos[i].departamentos + "</td>";
+                    }
+                    html += "<td>" + datos[i].fichaLista + "</td>";
+
+                    html += "</tr>";
+                    $("#cuerpoTabla").append(html);
+                }
+            }
+
+
+        }
+
+        function cerrarSesion() {
+            localStorage.setItem("email", null);
+            localStorage.setItem("password", null)
+            window.location = "/index.html";
+        }
+
+
 
 
     </script>
