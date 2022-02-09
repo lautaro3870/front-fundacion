@@ -156,7 +156,11 @@
             Swal.fire({
                 icon: 'error',
                 title: 'Ingrese al sistema primero',
+                timer: 1500,
             })
+            setTimeout(() => {
+                window.location = "/index.html"
+            }, 3000)
 
         } else {
             fetch('https://proyecto-fundacion.herokuapp.com/api/proyecto')
