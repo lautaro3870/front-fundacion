@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+
     <title>Alta</title>
 </head>
 
@@ -56,19 +57,15 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Personal</label>
-                <select id="txtPersonal" class="form-control">
-                    <!-- <option selected>Seleccione</option> -->
+                <select id="txtPersonal" onChange="imprimirValorPersonal()" class="form-control">
+                    <option id="idOpcionPersonal" value="" selected>Seleccione</option>
                 </select>
             </div>
             <div class="form-group col-md-6">
                 <label>Areas</label>
-                <select id="txtAreas" class="form-control">
-                    <!-- <option selected>Seleccione</option> -->
+                <select id="txtAreas" onChange="imprimirValorAreas()" class="form-control">
+                    <option id="idOpcionArea" value="" selected>Seleccione</option>
                 </select>
-            </div>
-            <div class="form-group col-md-2">
-                <label for="inputZip">Zip</label>
-                <input type="text" class="form-control" id="inputZip">
             </div>
         </div>
         <div class="form-group">
@@ -79,7 +76,8 @@
                 </label>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>
+        <button type="submit" id="enviar" class="btn btn-primary">Sign in</button>
+
     </form>
 
     <!-- Optional JavaScript -->
@@ -100,58 +98,35 @@
 
     <script>
 
-        // $(document).ready(function () {
-        //     $.ajax({
-        //         url: "https://localhost:44313/api/Areas",
-        //         type: "GET",
-        //         success: function (result) {
-        //             if (result.ok) {
-        //                 resultadoS = result.return;
-        //                 cargarCombo(resultadoS);
-        //                 console.log(resultadoS);
-        //             } else {
-        //                 alert(result.error);
-        //             }
-        //         },
-        //         error: function (error) {
-        //             alert("Problemas con acceder a los sexos");
-        //         }
-
-        //     })
-        // })
-
         var mail = localStorage.getItem("email");
         if (mail == "null" || mail === undefined) {
             Swal.fire({
-                icon: 'error',
-                title: 'Ingrese al sistema primero',
+                icon: "error",
+                title: "Ingrese al sistema primero",
                 timer: 1500,
-            })
+            });
             setTimeout(() => {
-                window.location = '/index.html'
-            }, 3000)
-
-        }
-        else {
-            fetch('https://proyecto-fundacion.herokuapp.com/api/Areas')
-                .then(response => response.json())
+                window.location = "/index.html";
+            }, 3000);
+        } else {
+            fetch("https://proyecto-fundacion.herokuapp.com/api/Areas")
+                .then((response) => response.json())
                 .then((data) => {
-                    cargarCombo(data)
-                })
+                    cargarCombo(data);
+                });
 
-            fetch('https://proyecto-fundacion.herokuapp.com/api/Personal')
-                .then(response => response.json())
+            fetch("https://proyecto-fundacion.herokuapp.com/api/Personal")
+                .then((response) => response.json())
                 .then((data) => {
-                    cargarComboPersonal(data)
-                })
-
+                    cargarComboPersonal(data);
+                });
 
             function cargarCombo(datos) {
-                var html = "<option value=''>Selecione</option>";
+                var html = "<option value=''>Seleccione</option>";
                 $("#txtAreas").append(html);
                 select = document.getElementById("txtAreas");
                 for (let i = 0; i < datos.length; i++) {
-                    var option = document.createElement('option');
+                    var option = document.createElement("option");
                     option.value = datos[i].id;
                     option.text = datos[i].area1;
                     select.add(option);
@@ -164,7 +139,7 @@
                 $("#txtPersonal").append(html);
                 select = document.getElementById("txtPersonal");
                 for (let i = 0; i < datos.length; i++) {
-                    var option = document.createElement('option');
+                    var option = document.createElement("option");
                     option.value = datos[i].id;
                     option.text = datos[i].nombre;
                     select.add(option);
@@ -173,7 +148,81 @@
             }
         }
 
+        let areas = [];
+        var objAreas = [];
+        function imprimirValorAreas() {
+            var select = document.getElementById("txtAreas");
+            var options = document.getElementById("idOpcionArea");
+            console.log(select.value);
 
+            if (select.value == "") {
+                return false;
+            } else {
+                areas.push(select.value);
+                objAreas.push({ id: select.value })
+                console.log(objAreas);
+            }
+        }
+
+        let personal = [];
+        var objPersonal = [];
+        function imprimirValorPersonal() {
+            var select = document.getElementById("txtPersonal");
+            var options = document.getElementById("idOpcionPersonal");
+            console.log(select.value);
+            if (select.value == "") {
+                return false;
+            } else {
+                personal.push(select.value);
+                objPersonal.push({ id: select.value })
+                console.log(objPersonal);
+            }
+        }
+
+
+        let boton = document.getElementById("enviar");
+        boton.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            var url = "https://proyecto-fundacion.herokuapp.com/api/Proyecto";
+            var data = {
+                titulo: "prueba html heroku",
+                paisRegion: "strfding",
+                contratante: "strinxxcg",
+                dirección: "strixcng",
+                montoContrato: "strkking",
+                nroContrato: "striqwqwng",
+                mesInicio: 1,
+                anioInicio: 2003,
+                mesFinalizacion: 9,
+                anioFinalizacion: 2022,
+                consultoresAsoc: "strxcxcing",
+                descripcion: "stringnnbm",
+                resultados: "strssdding",
+                fichaLista: true,
+                enCurso: true,
+                departamento: "ENERGIA",
+                moneda: "EURO",
+                certconformidad: true,
+                certificadopor: 1,
+                activo: true,
+                areas: objAreas,
+                personal: objPersonal,
+            };
+
+            console.log(data);
+
+            fetch(url, {
+                method: "POST", // or 'PUT'
+                body: JSON.stringify(data), // data can be `string` or {object}!
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((res) => res)
+                .catch((error) => console.error("Error:", error))
+                .then((response) => console.log("Success:", response));
+        });
 
     </script>
 </body>
