@@ -17,6 +17,8 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
 
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
     <title>Main</title>
 </head>
 
@@ -49,36 +51,75 @@
     </nav>
 
     <div class="container">
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="inputState">Mes Desde</label>
+                    <select id="mesDesde" onchange="obtenerValorDesde()" class="form-control">
+                        <option selected>Seleccione</option>
+                        <option value="0" id="idMes">Enero</option>
+                        <option value="1" id="idMes">Febrero</option>
+                        <option value="2" id="idMes">Marzo</option>
+                        <option value="3" id="idMes">Abril</option>
+                        <option value="4" id="idMes">Mayo</option>
+                        <option value="5" id="idMes">Junio</option>
+                        <option value="6" id="idMes">Julio</option>
+                        <option value="7" id="idMes">Agosto</option>
+                        <option value="8" id="idMes">Septiembre</option>
+                        <option value="9" id="idMes">Octubre</option>
+                        <option value="10" id="idMes">Noviembre</option>
+                        <option value="11" id="idMes">Diciembre</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputState">Mes Hasta</label>
+                    <select id="mesHasta" onchange="obtenerValorHasta()" class="form-control">
+                        <option selected>Seleccione</option>
+                        <option value="0" id="idMes">Enero</option>
+                        <option value="1" id="idMes">Febrero</option>
+                        <option value="2" id="idMes">Marzo</option>
+                        <option value="3" id="idMes">Abril</option>
+                        <option value="4" id="idMes">Mayo</option>
+                        <option value="5" id="idMes">Junio</option>
+                        <option value="6" id="idMes">Julio</option>
+                        <option value="7" id="idMes">Agosto</option>
+                        <option value="8" id="idMes">Septiembre</option>
+                        <option value="9" id="idMes">Octubre</option>
+                        <option value="10" id="idMes">Noviembre</option>
+                        <option value="11" id="idMes">Diciembre</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <button type="button" id="filtrar" class="btn btn-primary">Buscar</button>
+                </div>
+            </div>
 
-        <table id="users" class="table table-bordered table-striped text-center mt-4">
-            <thead>
-                <tr>
-                    <th data-field="Id">Id</th>
-                    <th data-field="Titulo">Titulo</th>
-                    <th data-field="PaisRegion">Pais</th>
-                    <th data-field="MesInicio">Mes Inicio</th>
-                    <th data-field="AnioInicio">Año Inicio</th>
-                    <th data-field="MesFin">Mes Fin</th>
-                    <th data-field="AnioFin">Año Fin</th>
-                    <th data-field="Areas">Areas</th>
-                    <th data-field="Departamentos">Departamentos</th>
-                    <th data-field="FichaLista">Lista</th>
-                </tr>
-            </thead>
-            <tbody id="cuerpoTabla">
+        </form>
 
-            </tbody>
-            <!-- <tfoot>
-                <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
-                </tr>
-            </tfoot> -->
-        </table>
+        <div class="container">
+            <table id="users" class="table table-bordered table-striped text-center mt-4">
+                <thead>
+                    <tr id="numero">
+                        <th data-field="Id">Id</th>
+                        <th data-field="Titulo">Titulo</th>
+                        <th data-field="PaisRegion">Pais</th>
+                        <th data-field="MesInicio">Mes Inicio</th>
+                        <th data-field="AnioInicio">Año Inicio</th>
+                        <th data-field="MesFin">Mes Fin</th>
+                        <th data-field="AnioFin">Año Fin</th>
+                        <th data-field="Areas">Areas</th>
+                        <th data-field="Departamentos">Departamentos</th>
+                        <th data-field="FichaLista">Lista</th>
+                        <th data-field="Acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoTabla">
+
+                </tbody>
+
+            </table>
+        </div>
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -102,9 +143,41 @@
 
     <script>
 
-        $(document).ready(function () {
-            $('#users').DataTable();
-        });
+        function obtenerValorDesde() {
+            var select = document.getElementById("mesDesde");
+            console.log(select.value);
+        }
+
+        function obtenerValorHasta() {
+            var select = document.getElementById("mesHasta");
+            console.log(select.value);
+        }
+
+        let buscar = document.getElementById("filtrar");
+
+        buscar.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            var tabla = document.getElementById("cuerpoTabla");
+
+            $("#users > tbody").empty();
+
+            var desde = document.getElementById("mesDesde");
+            var hasta = document.getElementById("mesHasta");
+
+            fetch('https://proyecto-fundacion.herokuapp.com/api/proyecto?MesInicio=' + desde.value + '&MesFin=' + hasta.value)
+
+                .then(response => response.json())
+                .then((data) => {
+                    crearTabla(data);
+                    $('#users').DataTable();
+                    console.log(data);
+                })
+        })
+
+        // $(document).ready(function () {
+        //     $('#users').DataTable();
+        // });
 
         const meses = (entrada) => {
             let mes = "";
@@ -163,64 +236,125 @@
             }, 3000)
 
         } else {
+            getTabla();
+
+        }
+
+        function getTabla() {
             fetch('https://proyecto-fundacion.herokuapp.com/api/proyecto')
                 .then(response => response.json())
                 .then((data) => {
-                    crearTabla(data)
+
+                    crearTabla(data);
+                    $('#users').DataTable();
                 })
+        }
 
-            function crearTabla(datos) {
-                for (var i = 0; i < datos.length; i++) {
-                    let listaAreas = datos[i].listaAreas;
-                    let mesesInicio = datos[i].mesInicio;
-                    let mesesFin = datos[i].mesFinalizacion;
+        $(document).on('click', '#eliminar', function (e) {
+            e.preventDefault();
 
+            id = $(this).parent().parent().children().first().text();
+            $("#users > tbody").empty();
+            console.log(id);
 
-                    let areas = "";
-
-                    var html = "<tr>";
-                    html += "<td>" + datos[i].id + "</td>";
-                    html += "<td>" + datos[i].titulo + "</td>";
-                    html += "<td>" + datos[i].paisRegion + "</td>";
-                    html += "<td>" + meses(mesesInicio) + "</td>";
-                    html += "<td>" + datos[i].anioInicio + "</td>";
-                    html += "<td>" + meses(mesesFin) + "</td>";
-                    html += "<td>" + datos[i].anioFinalizacion + "</td>";
-
-
-                    for (let j = 0; j < listaAreas.length; j++) {
-                        if (j === listaAreas.length - 1) {
-                            areas += listaAreas[j].area1;
-                        } else {
-                            areas += listaAreas[j].area1 + " - ";
+            Swal.fire({
+                title: '¿Desea Eliminar Ficha?',
+                showDenyButton: true,
+                confirmButtonText: 'Eliminar',
+                denyButtonText: `Cancelar`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `https://proyecto-fundacion.herokuapp.com/api/proyecto/${id}`,
+                        type: "DELETE",
+                        dataType: "json",
+                        success: function (result) {
+                            console.log(result);
+                            if (result) {
+                                getTabla();
+                            } else {
+                                //Swal.fire(result.error);
+                                console.log(result.error);
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
                         }
-
-                    }
-                    html += "<td>" + areas + "</td>";
-                    if (datos[i].departamentos === null) {
-                        html += "<td>" + "-" + "</td>";
-                    }
-                    else {
-                        html += "<td>" + datos[i].departamentos + "</td>";
-                    }
-                    html += "<td>" + datos[i].fichaLista + "</td>";
-
-                    html += "</tr>";
-                    $("#cuerpoTabla").append(html);
+                    })
+                    Swal.fire('Eliminado!', '', 'success')
+                } else if (result.isDenied) {
+                    Swal.fire('Ficha no eliminada', '', 'info')
+                    getTabla();
                 }
+            })
+
+
+
+
+        });
+
+        $(document).on('click', '#btnEditar', function () {
+            // e.preventDefault();
+            codigo = $(this).parent().parent().children().first().text();
+            descripcion = $(this).parent().parent().children().first().next().text();
+            precio = $(this).parent().parent().children().first().next().next().text();
+            stock = $(this).parent().parent().children().first().next().next().next().text();
+            fechaVencimiento = $(this).parent().parent().children().first().next().next().next().next().text();
+            document.getElementById('txtDescripcion').value = descripcion;
+            document.getElementById('txtPrecio').value = precio;
+            document.getElementById('txtStock').value = stock;
+            document.getElementById('datepicker').value = fechaVencimiento;
+            console.log(codigo);
+            // console.log(codigo,descripcion,precio,stock,fechaVencimiento);
+            // let posibleGanancia = precio * stock;
+            // console.log(posibleGanancia);
+        });
+
+        function crearTabla(datos) {
+            for (var i = 0; i < datos.length; i++) {
+
+                let listaAreas = datos[i].listaAreas;
+                let mesesInicio = datos[i].mesInicio;
+                let mesesFin = datos[i].mesFinalizacion;
+
+                let areas = "";
+
+                var html = "<tr>";
+                html += "<td>" + datos[i].id + "</td>";
+                html += "<td>" + datos[i].titulo + "</td>";
+                html += "<td>" + datos[i].paisRegion + "</td>";
+                html += "<td>" + meses(mesesInicio) + "</td>";
+                html += "<td>" + datos[i].anioInicio + "</td>";
+                html += "<td>" + meses(mesesFin) + "</td>";
+                html += "<td>" + datos[i].anioFinalizacion + "</td>";
+
+                for (let j = 0; j < listaAreas.length; j++) {
+                    if (j === listaAreas.length - 1) {
+                        areas += listaAreas[j].area1;
+                    } else {
+                        areas += listaAreas[j].area1 + " - ";
+                    }
+
+                }
+                html += "<td>" + areas + "</td>";
+                if (datos[i].departamentos === null) {
+                    html += "<td>" + "-" + "</td>";
+                }
+                else {
+                    html += "<td>" + datos[i].departamentos + "</td>";
+                }
+                html += "<td>" + datos[i].fichaLista + "</td>";
+                html += "<td><button type='submit' id='eliminar'>Eliminar</button></td>";
+
+                html += "</tr>";
+                $("#cuerpoTabla").append(html);
             }
-
-
         }
 
         function cerrarSesion() {
             localStorage.setItem("email", null);
-            localStorage.setItem("password", null)
             window.location = "/index.html";
         }
-
-
-
 
     </script>
 </body>

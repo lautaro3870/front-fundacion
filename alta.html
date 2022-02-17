@@ -55,13 +55,30 @@
             <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
         </div>
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-5">
                 <label>Personal</label>
                 <select id="txtPersonal" onChange="imprimirValorPersonal()" class="form-control">
                     <option id="idOpcionPersonal" value="" selected>Seleccione</option>
                 </select>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-2">
+                <button type="button" id="btnAgregarPersonal" class="btn btn-primary">+</button>
+                <button type="button" onclick="removerPersonal()" class="btn btn-danger">-</button>
+            </div>
+            <div>
+                <table id="mytable" class="container table">
+                    <thead class="container">
+                        <tr>
+                            <th>ID</th>
+                            <th>Personal</th>
+                        </tr>
+                    </thead>
+                </table>
+                <tbody>
+
+                </tbody>
+            </div>
+            <div class="form-group col-md-5">
                 <label>Areas</label>
                 <select id="txtAreas" onChange="imprimirValorAreas()" class="form-control">
                     <option id="idOpcionArea" value="" selected>Seleccione</option>
@@ -97,6 +114,8 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+
+
 
         var mail = localStorage.getItem("email");
         if (mail == "null" || mail === undefined) {
@@ -179,6 +198,59 @@
             }
         }
 
+        function removerPersonal() {
+            objPersonal.pop();
+            console.log(objPersonal);
+            var personal = document.getElementById("txtPersonal").value;
+            var i = 1; //contador para asignar id al boton que borrara la fila
+            var fila = '<tr id="row' + i + '"><td>' + personal + '</td></tr>';
+
+            i++;
+            $('#row').remove();
+        }
+
+
+
+        let btnAgregarPersonal = document.getElementById("btnAgregarPersonal");
+
+        btnAgregarPersonal.addEventListener('click', cargarTabla);
+        btnAgregarPersonal.addEventListener('click', mostrarDatos);
+        btnAgregarPersonal.addEventListener('click', mostrarDatos2);
+
+
+        function cargarTabla() {
+            var personal = document.getElementById("txtPersonal").value;
+            // var cantidad = document.getElementById("txtCantidad").value;
+            // var precio = document.getElementById("txtPrecio").value;
+            var i = 1; //contador para asignar id al boton que borrara la fila
+            var fila = '<tr id="row' + i + '"><td>' + personal + '</td></tr>';
+
+            i++;
+
+            $('#mytable tr:first').after(fila);
+            // document.getElementById("txtPersonal").value = "";
+            // document.getElementById("txtCantidad").value = "";
+            // document.getElementById("txtPrecio").value = "";
+            // document.getElementById("txtIdArticulo").focus();
+        }
+
+        function mostrarDatos() {
+            for (let row of mytable.rows) {
+                for (let cell of row.cells) {
+                    console.log(cell);
+                    console.log(cell.textContent);
+                    console.log(cell.firstChild);
+                }
+            }
+        }
+
+        function mostrarDatos2() {
+            $('#mytable tr').each(function () {
+                $(this).find('td').each(function () {
+                    console.log($(this));
+                });
+            });
+        }
 
         let boton = document.getElementById("enviar");
         boton.addEventListener("click", (e) => {
