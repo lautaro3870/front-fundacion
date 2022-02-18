@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <script src="https://unpkg.com/boxicons@2.1.1/dist/boxicons.js"></script>
+
+    <link rel="stylesheet" href="estilos.css">
 
     <title>Alta</title>
 </head>
@@ -28,49 +31,119 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="main.html">Inicio <span class="sr-only">(current)</span></a>
                 </li>
-
-
             </ul>
-
         </div>
     </nav>
 
     <form class="container">
         <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputEmail4">Email</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+            <div class="form-group col-md-8">
+                <label>Titulo</label>
+                <input type="text" class="form-control" id="txtTitulo" placeholder="Titulo">
             </div>
-            <div class="form-group col-md-6">
-                <label for="inputPassword4">Password</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+            <div class="form-group col-md-4">
+                <label>Departamento</label>
+                <select name="" id="txtDepartamento" class="form-control">
+                    <option value="">ENERGIA</option>
+                    <option value="">MADE</option>
+                </select>
             </div>
         </div>
-        <div class="form-group">
-            <label for="inputAddress">Address</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-        </div>
-        <div class="form-group">
-            <label for="inputAddress2">Address 2</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-        </div>
+
         <div class="form-row">
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-4">
+                <label>Pais/Region</label>
+                <input type="text" class="form-control" id="txtPais" placeholder="Pais">
+            </div>
+            <div class="form-group col-md-4">
+                <label>Contratante</label>
+                <input type="text" class="form-control" id="txtContratante" placeholder="Contratante">
+            </div>
+            <div class="form-group col-md-4">
+                <label>Dirección</label>
+                <input type="text" class="form-control" id="txtDireccion" placeholder="Direccion">
+            </div>
+        </div>
+
+        <h3>Datos del Contrato</h3>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label>Numero</label>
+                <input type="text" class="form-control" id="txtNumero" placeholder="Numero">
+            </div>
+            <div class="form-group col-md-2">
+                <label>Monto</label>
+                <input type="text" class="form-control" id="txtMonto" placeholder="Monto">
+            </div>
+            <div class="form-group col-md-2">
+                <label>Moneda</label>
+                <select name="Moneda" id="" class="form-control">
+                    <option value="">DOL</option>
+                    <option value="">EUR</option>
+                    <option value="">PESOS</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputState">Mes Inicio</label>
+                <select id="mesHasta" class="form-control">
+                    <option selected>Seleccione</option>
+                    <option value="0" id="idMes">Enero</option>
+                    <option value="1" id="idMes">Febrero</option>
+                    <option value="2" id="idMes">Marzo</option>
+                    <option value="3" id="idMes">Abril</option>
+                    <option value="4" id="idMes">Mayo</option>
+                    <option value="5" id="idMes">Junio</option>
+                    <option value="6" id="idMes">Julio</option>
+                    <option value="7" id="idMes">Agosto</option>
+                    <option value="8" id="idMes">Septiembre</option>
+                    <option value="9" id="idMes">Octubre</option>
+                    <option value="10" id="idMes">Noviembre</option>
+                    <option value="11" id="idMes">Diciembre</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label>Año Inicio</label>
+                <input type="number" class="form-control" id="txtAnioInicio">
+            </div>
+            <div class="form-group col-md-1">
+                <label>Ejecución</label>
+                <input type="checkbox" class="form-control" id="txtEjecucion">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label>Consultores Asociados</label>
+                <textarea name="" id="txtConsultores" class="form-control" cols="30" rows="5"></textarea>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label>Descripcion de Proyecto</label>
+                <textarea name="" id="txtDescProyexto" class="form-control" cols="30" rows="5"></textarea>
+            </div>
+        </div>
+
+
+        <div class="form-row">
+            <div class="form-group col-md-7">
                 <label>Personal</label>
                 <select id="txtPersonal" onChange="imprimirValorPersonal()" class="form-control">
                     <option id="idOpcionPersonal" value="" selected>Seleccione</option>
                 </select>
             </div>
-            <div class="form-group col-md-2">
-                <button type="button" id="btnAgregarPersonal" class="btn btn-primary">+</button>
-                <button type="button" onclick="removerPersonal()" class="btn btn-danger">-</button>
-            </div>
-            <div>
+            <button type="button" style="height: 40px; margin-top: 30px;" id="btnAgregarPersonal"
+                class="btn btn-primary">+</button>
+
+            <div class="panel-body table-responsive">
                 <table id="mytable" class="container table">
                     <thead class="container">
                         <tr>
                             <th>ID</th>
                             <th>Personal</th>
+                            <th>Coordinador</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -84,17 +157,27 @@
                     <option id="idOpcionArea" value="" selected>Seleccione</option>
                 </select>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
-                    Check me out
-                </label>
+            <button type="button" style="height: 40px; margin-top: 30px;" id="btnAgregarArea"
+                class="btn btn-primary">+</button>
+
+            <div class="panel-body table-responsive">
+                <table id="mytableArea" class="container table">
+                    <thead class="container">
+                        <tr>
+                            <th>ID</th>
+                            <th>Area</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                </table>
+                <tbody>
+
+                </tbody>
             </div>
         </div>
-        <button type="submit" id="enviar" class="btn btn-primary">Sign in</button>
-
+        <br>
+        <button type="submit" id="enviar" class="btn btn-primary">Guardar</button>
+        <br><br>
     </form>
 
     <!-- Optional JavaScript -->
@@ -114,8 +197,6 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-
-
 
         var mail = localStorage.getItem("email");
         if (mail == "null" || mail === undefined) {
@@ -137,6 +218,7 @@
             fetch("https://proyecto-fundacion.herokuapp.com/api/Personal")
                 .then((response) => response.json())
                 .then((data) => {
+                    console.log(data);
                     cargarComboPersonal(data);
                 });
 
@@ -198,18 +280,11 @@
             }
         }
 
-        function removerPersonal() {
+        function removerPersonal(index) {
             objPersonal.pop();
             console.log(objPersonal);
-            var personal = document.getElementById("txtPersonal").value;
-            var i = 1; //contador para asignar id al boton que borrara la fila
-            var fila = '<tr id="row' + i + '"><td>' + personal + '</td></tr>';
-
-            i++;
-            $('#row').remove();
+            $('#row' + index).closest('tr').remove();
         }
-
-
 
         let btnAgregarPersonal = document.getElementById("btnAgregarPersonal");
 
@@ -220,10 +295,12 @@
 
         function cargarTabla() {
             var personal = document.getElementById("txtPersonal").value;
+            var combo = document.getElementById("txtPersonal");
+            var nombre = combo.options[combo.selectedIndex].text;
             // var cantidad = document.getElementById("txtCantidad").value;
             // var precio = document.getElementById("txtPrecio").value;
             var i = 1; //contador para asignar id al boton que borrara la fila
-            var fila = '<tr id="row' + i + '"><td>' + personal + '</td></tr>';
+            var fila = '<tr id="row' + i + '"><td>' + personal + '</td><td>' + nombre + '</td><td><input type=checkbox id="txtCordinador" /></td><td><button onclick="removerPersonal(' + i + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
 
             i++;
 
@@ -246,6 +323,57 @@
 
         function mostrarDatos2() {
             $('#mytable tr').each(function () {
+                $(this).find('td').each(function () {
+                    console.log($(this));
+                });
+            });
+        }
+
+        //cargar tabla areas y remover
+
+        function removerArea(index) {
+            objPersonal.pop();
+            console.log(objPersonal);
+            $('#rowArea' + index).closest('tr').remove();
+        }
+
+        let btnAgregarArea = document.getElementById("btnAgregarArea");
+
+        btnAgregarArea.addEventListener('click', cargarTablaArea);
+        btnAgregarArea.addEventListener('click', mostrarDatosArea);
+        btnAgregarArea.addEventListener('click', mostrarDatos2Area);
+
+
+        function cargarTablaArea() {
+            var area = document.getElementById("txtAreas").value;
+            var combo = document.getElementById("txtAreas");
+            var nombre = combo.options[combo.selectedIndex].text;
+            // var cantidad = document.getElementById("txtCantidad").value;
+            // var precio = document.getElementById("txtPrecio").value;
+            var i = 1; //contador para asignar id al boton que borrara la fila
+            var fila = '<tr id="rowArea' + i + '"><td>' + area + '</td><td>' + nombre + '</td><td><button onclick="removerArea(' + i + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
+
+            i++;
+
+            $('#mytableArea tr:first').after(fila);
+            // document.getElementById("txtPersonal").value = "";
+            // document.getElementById("txtCantidad").value = "";
+            // document.getElementById("txtPrecio").value = "";
+            // document.getElementById("txtIdArticulo").focus();
+        }
+
+        function mostrarDatosArea() {
+            for (let row of mytableArea.rows) {
+                for (let cell of row.cells) {
+                    console.log(cell);
+                    console.log(cell.textContent);
+                    console.log(cell.firstChild);
+                }
+            }
+        }
+
+        function mostrarDatos2Area() {
+            $('#mytableArea tr').each(function () {
                 $(this).find('td').each(function () {
                     console.log($(this));
                 });

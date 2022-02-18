@@ -19,6 +19,10 @@
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script src="https://unpkg.com/boxicons@2.1.1/dist/boxicons.js"></script>
+
     <title>Main</title>
 </head>
 
@@ -121,6 +125,8 @@
         </div>
 
     </div>
+
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
@@ -244,7 +250,6 @@
             fetch('https://proyecto-fundacion.herokuapp.com/api/proyecto')
                 .then(response => response.json())
                 .then((data) => {
-
                     crearTabla(data);
                     $('#users').DataTable();
                 })
@@ -287,10 +292,6 @@
                     getTabla();
                 }
             })
-
-
-
-
         });
 
         $(document).on('click', '#btnEditar', function () {
@@ -341,10 +342,11 @@
                     html += "<td>" + "-" + "</td>";
                 }
                 else {
-                    html += "<td>" + datos[i].departamentos + "</td>";
+                    html += "<td><box-icon name='trash'></box-icon></td>";
                 }
                 html += "<td>" + datos[i].fichaLista + "</td>";
-                html += "<td><button type='submit' id='eliminar'>Eliminar</button></td>";
+
+                html += "<td><button type='submit' class='btn btn-outline-primary mt-4' id='eliminar'><box-icon name='trash'></box-icon></button><button type='submit' class='btn btn-outline-primary mt-4' id='btnEditar'><box-icon name='edit-alt'></box-icon></button></td>";
 
                 html += "</tr>";
                 $("#cuerpoTabla").append(html);
