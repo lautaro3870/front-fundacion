@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" href="estilos.css">
 
-    <title>Alta</title>
+    <title>Update</title>
 </head>
 
 <body>
@@ -43,9 +43,9 @@
             </div>
             <div class="form-group col-md-4">
                 <label>Departamento</label>
-                <select name="" id="txtDepartamento" class="form-control">
-                    <option value="">ENERGIA</option>
-                    <option value="">MADE</option>
+                <select id="txtDepartamento" class="form-control">
+                    <option value="ENERGIA">ENERGIA</option>
+                    <option value="MADE">MADE</option>
                 </select>
             </div>
         </div>
@@ -84,7 +84,7 @@
                 </select>
             </div>
             <div class="form-group col-md-2">
-                <label for="inputState">Mes Inicio</label>
+                <label>Mes Inicio</label>
                 <select id="mesDesde" class="form-control">
                     <option selected>Seleccione</option>
                     <option value="0" id="idMes">Enero</option>
@@ -156,12 +156,12 @@
         <div class="form-row">
             <div class="form-group col-md-7">
                 <label>Personal</label>
-                <select id="txtPersonal" class="form-control">
+                <select id="txtPersonal" onChange="imprimirValorPersonal()" class="form-control">
                     <option id="idOpcionPersonal" value="" selected>Seleccione</option>
                 </select>
             </div>
-            <button type="button" onclick="imprimirValorPersonal()" style="height: 40px; margin-top: 30px;"
-                id="btnAgregarPersonal" class="btn btn-primary">+</button>
+            <button type="button" style="height: 40px; margin-top: 30px;" id="btnAgregarPersonal"
+                class="btn btn-primary">+</button>
 
             <div class="panel-body table-responsive">
                 <table id="mytable" class="container table">
@@ -180,12 +180,12 @@
             </div>
             <div class="form-group col-md-5">
                 <label>Areas</label>
-                <select id="txtAreas" class="form-control">
+                <select id="txtAreas" onChange="imprimirValorAreas()" class="form-control">
                     <option id="idOpcionArea" value="" selected>Seleccione</option>
                 </select>
             </div>
-            <button type="button" onclick="imprimirValorAreas()" style="height: 40px; margin-top: 30px;"
-                id="btnAgregarArea" class="btn btn-primary">+</button>
+            <button type="button" style="height: 40px; margin-top: 30px;" id="btnAgregarArea"
+                class="btn btn-primary">+</button>
 
             <div class="panel-body table-responsive">
                 <table id="mytableArea" class="container table">
@@ -204,6 +204,7 @@
         </div>
         <br>
         <button type="submit" id="enviar" class="btn btn-primary">Guardar</button>
+        <button type="button" id="mostrar">Mostrar</button>
         <br><br>
     </form>
 
@@ -327,7 +328,7 @@
             // var cantidad = document.getElementById("txtCantidad").value;
             // var precio = document.getElementById("txtPrecio").value;
             var i = 1; //contador para asignar id al boton que borrara la fila
-            var fila = '<tr id="row' + i + '"><td>' + personal + '</td><td>' + nombre + '</td><td><input type=checkbox id="txtCordinador" /></td><td><button onclick="removerPersonal(' + i + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
+            var fila = '<tr id="row' + i + '"><td>' + personal + '</td><td>' + nombre + '</td><td><input type=checkbox id="txtCordinador" /></td><td><button class="btn btn-outline-danger" onclick="removerPersonal(' + i + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
 
             i++;
 
@@ -378,7 +379,7 @@
             // var cantidad = document.getElementById("txtCantidad").value;
             // var precio = document.getElementById("txtPrecio").value;
             var i = 1; //contador para asignar id al boton que borrara la fila
-            var fila = '<tr id="rowArea' + i + '"><td>' + area + '</td><td>' + nombre + '</td><td><button onclick="removerArea(' + i + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
+            var fila = '<tr id="rowArea' + i + '"><td>' + area + '</td><td>' + nombre + '</td><td><button class="btn btn-outline-danger" onclick="removerArea(' + i + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
 
             i++;
 
@@ -407,19 +408,96 @@
             });
         }
 
+        var id = localStorage.getItem("idProyecto");
+
+        let enEjecucion = document.getElementById("txtEjecucion").checked;
+        console.log(enEjecucion);
+
+        var moneda = document.getElementById("txtMoneda");
+        var monedaSeleccionada = moneda.options[moneda.selectedIndex].text;
+        console.log(moneda);
+
+        var depto = document.getElementById("txtDepartamento");
+        var deptoSeleccionado = depto.options[depto.selectedIndex].text;
+
+        fetch('https://proyecto-fundacion.herokuapp.com/api/Proyecto/' + id)
+            .then(response => response.json())
+            .then((data) => {
+                console.log(data);
+                document.getElementById("txtTitulo").value = data[0].titulo;
+                document.getElementById("txtDepartamento").value = data[0].departamento;
+                document.getElementById("txtPais").value = data[0].paisRegion;
+                document.getElementById("txtContratante").value = data[0].contratante;
+                document.getElementById("txtDireccion").value = data[0].direccion;
+                document.getElementById("txtNumero").value = data[0].nroContrato;
+                document.getElementById("txtMonto").value = data[0].montoContrato;
+                document.getElementById("txtMoneda").value = data[0].moneda;
+                document.getElementById("mesDesde").value = data[0].mesInicio;
+                document.getElementById("mesHasta").value = data[0].mesFinalizacion;
+                document.getElementById("txtAnioInicio").value = data[0].anioInicio;
+                document.getElementById("txtAnioFin").value = data[0].anioFinalizacion;
+                document.getElementById("txtEjecucion").checked = data[0].enCurso;
+                document.getElementById("txtConsultores").value = data[0].consultoresAsoc;
+                document.getElementById("txtDescProyexto").value = data[0].descripcion;
+                data[0].listaPersonal.forEach(i => {
+                    var fila = '<tr id="row' + i.id + '"><td>' + i.id + '</td><td>' + i.nombre + '</td><td><input type=checkbox id="txtCordinador" /></td><td><button onclick="removerPersonal(' + i.id + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
+                    $('#mytable tr:first').after(fila);
+                    personal.push(i.id)
+                    objPersonal.push({ id: parseInt(i.id) })
+                    console.log(objPersonal);
+                });
+
+                data[0].listaAreas.forEach(i => {
+                    var fila = '<tr id="row' + i.id + '"><td>' + i.id + '</td><td>' + i.area1 + '</td><td><input type=checkbox id="txtCordinador" /></td><td><button onclick="removerArea(' + i.id + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
+                    $('#mytableArea tr:first').after(fila);
+
+                    areas.push(parseInt(i.id));
+                    objAreas.push({ id: parseInt(i.id) })
+                });
+            })
+
+
+        let mostrar = document.getElementById("mostrar");
+        mostrar.addEventListener("click", (e) => {
+            e.preventDefault();
+            var parametros = [];
+            var parame = [];
+            $("#mytable tbody tr").each(function (i, e) {
+
+                // var tr = [];
+                $(this).find("td").each(function (index, element) {
+                    if (index != 0) // ignoramos el primer indice que dice Option #
+                    {
+                        var td = {};
+                        td["dato" + index] = $(this).find("td").val();
+                        objPersonal.push(td);
+                    }
+                });
+                //parametros.push(objPersonal);
+            });
+
+            console.log(objPersonal);
+        })
+
+
         let boton = document.getElementById("enviar");
         boton.addEventListener("click", (e) => {
             e.preventDefault();
 
+            var url = "https://proyecto-fundacion.herokuapp.com/api/Proyecto";
+
+            let enEjecucion = document.getElementById("txtEjecucion").checked;
+            console.log(enEjecucion);
+
             var moneda = document.getElementById("txtMoneda");
             var monedaSeleccionada = moneda.options[moneda.selectedIndex].text;
-            console.log(moneda);
+            console.log(monedaSeleccionada);
 
             var depto = document.getElementById("txtDepartamento");
             var deptoSeleccionado = depto.options[depto.selectedIndex].text;
 
-            var url = "https://proyecto-fundacion.herokuapp.com/api/Proyecto";
             var data = {
+                id: parseInt(id),
                 titulo: document.getElementById("txtTitulo").value,
                 paisRegion: document.getElementById("txtPais").value,
                 contratante: document.getElementById("txtContratante").value,
@@ -434,7 +512,7 @@
                 descripcion: document.getElementById("txtDescProyexto").value,
                 resultados: null,
                 fichaLista: false,
-                enCurso: document.getElementById("txtEjecucion").checked,
+                enCurso: enEjecucion,
                 departamento: deptoSeleccionado,
                 moneda: monedaSeleccionada,
                 certconformidad: false,
@@ -444,18 +522,36 @@
                 personal: objPersonal,
             };
 
+            localStorage.setItem("idProyecto", 0);
             console.log(data);
 
             fetch(url, {
-                method: "POST", // or 'PUT'
+                method: "PUT", // or 'PUT'
                 body: JSON.stringify(data), // data can be `string` or {object}!
                 headers: {
                     "Content-Type": "application/json",
                 },
             })
                 .then((res) => res)
-                .catch((error) => console.error("Error:", error))
-                .then((response) => console.log("Success:", response));
+                //.catch((error) => console.error("Error:", error))
+                .then((data) => {
+                    if (data.status == 200) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Modificacion Exitosa',
+                            showConfirmButton: false,
+                            timer: 1500,
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Complete los campos',
+                        })
+                        return false;
+                    }
+                    //console.log("Success:", response)
+                });
         });
 
     </script>

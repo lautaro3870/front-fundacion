@@ -296,16 +296,19 @@
 
         $(document).on('click', '#btnEditar', function () {
             // e.preventDefault();
-            codigo = $(this).parent().parent().children().first().text();
-            descripcion = $(this).parent().parent().children().first().next().text();
-            precio = $(this).parent().parent().children().first().next().next().text();
-            stock = $(this).parent().parent().children().first().next().next().next().text();
-            fechaVencimiento = $(this).parent().parent().children().first().next().next().next().next().text();
-            document.getElementById('txtDescripcion').value = descripcion;
-            document.getElementById('txtPrecio').value = precio;
-            document.getElementById('txtStock').value = stock;
-            document.getElementById('datepicker').value = fechaVencimiento;
-            console.log(codigo);
+            id = $(this).parent().parent().children().first().text();
+
+            // descripcion = $(this).parent().parent().children().first().next().text();
+            // precio = $(this).parent().parent().children().first().next().next().text();
+            // stock = $(this).parent().parent().children().first().next().next().next().text();
+            // fechaVencimiento = $(this).parent().parent().children().first().next().next().next().next().text();
+            // document.getElementById('txtDescripcion').value = descripcion;
+            // document.getElementById('txtPrecio').value = precio;
+            // document.getElementById('txtStock').value = stock;
+            // document.getElementById('datepicker').value = fechaVencimiento;
+            console.log(id);
+            localStorage.setItem("idProyecto", id);
+            window.location = "update.html"
             // console.log(codigo,descripcion,precio,stock,fechaVencimiento);
             // let posibleGanancia = precio * stock;
             // console.log(posibleGanancia);
@@ -342,11 +345,11 @@
                     html += "<td>" + "-" + "</td>";
                 }
                 else {
-                    html += "<td><box-icon name='trash'></box-icon></td>";
+                    html += "<td> " + datos[i].departamentos + "</td>";
                 }
                 html += "<td>" + datos[i].fichaLista + "</td>";
 
-                html += "<td><button type='submit' class='btn btn-outline-primary mt-4' id='eliminar'><box-icon name='trash'></box-icon></button><button type='submit' class='btn btn-outline-primary mt-4' id='btnEditar'><box-icon name='edit-alt'></box-icon></button></td>";
+                html += "<td><button type='submit' class='btn btn-outline-danger mt-4' id='eliminar'><box-icon name='trash'></box-icon></button><button type='submit' class='btn btn-outline-primary mt-4' id='btnEditar'><box-icon name='edit-alt'></box-icon></button></td>";
 
                 html += "</tr>";
                 $("#cuerpoTabla").append(html);
