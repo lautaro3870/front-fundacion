@@ -156,12 +156,12 @@
         <div class="form-row">
             <div class="form-group col-md-7">
                 <label>Personal</label>
-                <select id="txtPersonal" onChange="imprimirValorPersonal()" class="form-control">
+                <select id="txtPersonal" class="form-control">
                     <option id="idOpcionPersonal" value="" selected>Seleccione</option>
                 </select>
             </div>
-            <button type="button" style="height: 40px; margin-top: 30px;" id="btnAgregarPersonal"
-                class="btn btn-primary">+</button>
+            <button type="button" onclick="imprimirValorPersonal()" style="height: 40px; margin-top: 30px;"
+                id="btnAgregarPersonal" class="btn btn-primary">+</button>
 
             <div class="panel-body table-responsive">
                 <table id="mytable" class="container table">
@@ -174,18 +174,18 @@
                         </tr>
                     </thead>
                 </table>
-                <tbody>
+                <tbody id="mytableBodyPersonal">
 
                 </tbody>
             </div>
             <div class="form-group col-md-5">
                 <label>Areas</label>
-                <select id="txtAreas" onChange="imprimirValorAreas()" class="form-control">
+                <select id="txtAreas" class="form-control">
                     <option id="idOpcionArea" value="" selected>Seleccione</option>
                 </select>
             </div>
-            <button type="button" style="height: 40px; margin-top: 30px;" id="btnAgregarArea"
-                class="btn btn-primary">+</button>
+            <button type="button" onclick="imprimirValorAreas()" style="height: 40px; margin-top: 30px;"
+                id="btnAgregarArea" class="btn btn-primary">+</button>
 
             <div class="panel-body table-responsive">
                 <table id="mytableArea" class="container table">
@@ -200,6 +200,12 @@
                 <tbody>
 
                 </tbody>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-5">
+                <h6 for="">Certificado Conformidad</h6>
+                <input id="certConformidad" type="checkbox">
             </div>
         </div>
         <br>
@@ -424,6 +430,7 @@
             .then(response => response.json())
             .then((data) => {
                 console.log(data);
+                document.getElementById("certConformidad").checked = data[0].certconformidad;
                 document.getElementById("txtTitulo").value = data[0].titulo;
                 document.getElementById("txtDepartamento").value = data[0].departamento;
                 document.getElementById("txtPais").value = data[0].paisRegion;
@@ -448,7 +455,7 @@
                 });
 
                 data[0].listaAreas.forEach(i => {
-                    var fila = '<tr id="row' + i.id + '"><td>' + i.id + '</td><td>' + i.area1 + '</td><td><input type=checkbox id="txtCordinador" /></td><td><button onclick="removerArea(' + i.id + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
+                    var fila = '<tr id="row' + i.id + '"><td>' + i.id + '</td><td>' + i.area1 + '</td><td><button onclick="removerArea(' + i.id + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
                     $('#mytableArea tr:first').after(fila);
 
                     areas.push(parseInt(i.id));
@@ -515,7 +522,7 @@
                 enCurso: enEjecucion,
                 departamento: deptoSeleccionado,
                 moneda: monedaSeleccionada,
-                certconformidad: false,
+                certconformidad: document.getElementById("certConformidad").checked,
                 certificadopor: 1,
                 activo: true,
                 areas: objAreas,

@@ -202,10 +202,87 @@
                 </tbody>
             </div>
         </div>
+        <!-- <br>
+        <div class="class-row">
+            <div class="form-group col-md-5">
+                <h3>Publicaciones</h3>
+                <button type="button" data-toggle="modal" data-target="#exampleModal"
+                    style="height: 40px; margin-top: 30px;" class="btn btn-primary">+</button>
+            </div>
+
+            <div class="panel-body table-responsive">
+                <table id="mytablePublicaciones" class="container table">
+                    <thead class="container">
+                        <tr>
+                            <th>Publicacion</th>
+                            <th>Año</th>
+                            <th>Codigo BCS</th>
+                        </tr>
+                    </thead>
+                </table>
+                <tbody>
+
+                </tbody>
+            </div>
+        </div> -->
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <h6 for="">Certificado Conformidad</h6>
+                <input id="certConformidad" type="checkbox">
+            </div>
+            <div class="form-group col-md-4">
+                <h6 for="">Ficha Lista?</h6>
+                <input id="idFichaLista" onclick="fichaSeleccionada()" type="checkbox">
+            </div>
+            <div class="form-group col-md-4">
+
+                <select name="" class="form-control" id="comboFicha">
+                    <option value="">Seleccione</option>
+                    <option value="0">Landaveri, Raúl</option>
+                    <option value="1">Lallana, Francisco</option>
+                    <option value="2">Nadal. Gustavo</option>
+                    <option value="3">Di Sbroiavacca, Nicolás</option>
+                    <option value="4">Dubrovsky, Hilda</option>
+                    <option value="5">Recalde, Marina</option>
+                </select>
+            </div>
+
+
+        </div>
         <br>
         <button type="submit" id="enviar" class="btn btn-primary">Guardar</button>
         <br><br>
     </form>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Publicaciones</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <label>Publicacion</label>
+                        <textarea name="" id="txtPublicacion" class="form-control" cols="30" rows="5"></textarea>
+                        <br>
+                        <label for="">Año</label>
+                        <input id="txtAnio" class="form-control" type="text">
+                        <br>
+                        <label for="">Codigo BCS</label>
+                        <input id="txtBCS" class="form-control" type="text">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -224,6 +301,10 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
 
         var mail = localStorage.getItem("email");
         if (mail == "null" || mail === undefined) {
@@ -308,7 +389,14 @@
         }
 
         function removerPersonal(index) {
-            objPersonal.pop();
+            //objPersonal.pop(index);
+            let pos = objPersonal.id = index;
+            console.log(pos)
+            objPersonal.splice(pos, 1);
+
+            // let pos = objPersonal.indexOf(index);
+            // if (pos !== -1) { 
+            // }
             console.log(objPersonal);
             $('#row' + index).closest('tr').remove();
         }
@@ -319,14 +407,14 @@
         btnAgregarPersonal.addEventListener('click', mostrarDatos);
         btnAgregarPersonal.addEventListener('click', mostrarDatos2);
 
-
         function cargarTabla() {
             var personal = document.getElementById("txtPersonal").value;
             var combo = document.getElementById("txtPersonal");
+            console.log(combo)
             var nombre = combo.options[combo.selectedIndex].text;
             // var cantidad = document.getElementById("txtCantidad").value;
             // var precio = document.getElementById("txtPrecio").value;
-            var i = 1; //contador para asignar id al boton que borrara la fila
+            var i = 1;//contador para asignar id al boton que borrara la fila
             var fila = '<tr id="row' + i + '"><td>' + personal + '</td><td>' + nombre + '</td><td><input type=checkbox id="txtCordinador" /></td><td><button onclick="removerPersonal(' + i + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
 
             i++;
@@ -407,6 +495,33 @@
             });
         }
 
+        // document.getElementById("idFichaLista").onchange = function () {
+        //     var fichaLista = document.getElementById("idFichaLista").checked;
+        //     if (fichaLista) {
+        //         document.getElementById("comboFicha").removeAttribute("disabled");
+        //     }
+
+        // }
+
+        window.onload = fichaSeleccionada();
+        var comboFicha;
+
+        function fichaSeleccionada() {
+            var fichaLista = document.getElementById("idFichaLista").checked;
+
+            if (fichaLista) {
+                document.getElementById("comboFicha").disabled = !fichaLista;
+                comboFicha = document.getElementById("comboFicha").value;
+            }
+            else {
+                document.getElementById("comboFicha").disabled = !fichaLista;
+                comboFicha = "";
+            }
+
+
+        }
+
+
         let boton = document.getElementById("enviar");
         boton.addEventListener("click", (e) => {
             e.preventDefault();
@@ -414,6 +529,8 @@
             var moneda = document.getElementById("txtMoneda");
             var monedaSeleccionada = moneda.options[moneda.selectedIndex].text;
             console.log(moneda);
+
+
 
             var depto = document.getElementById("txtDepartamento");
             var deptoSeleccionado = depto.options[depto.selectedIndex].text;
@@ -433,12 +550,12 @@
                 consultoresAsoc: document.getElementById("txtConsultores").value,
                 descripcion: document.getElementById("txtDescProyexto").value,
                 resultados: null,
-                fichaLista: false,
+                fichaLista: document.getElementById("idFichaLista").checked,
                 enCurso: document.getElementById("txtEjecucion").checked,
                 departamento: deptoSeleccionado,
                 moneda: monedaSeleccionada,
-                certconformidad: false,
-                certificadopor: 1,
+                certconformidad: document.getElementById("certConformidad").checked,
+                certificadopor: comboFicha,
                 activo: true,
                 areas: objAreas,
                 personal: objPersonal,
@@ -454,8 +571,24 @@
                 },
             })
                 .then((res) => res)
-                .catch((error) => console.error("Error:", error))
-                .then((response) => console.log("Success:", response));
+                //.catch((error) => console.error("Error:", error))
+                .then((data) => {
+                    if (data.status == 200) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Insercion Exitosa',
+                            showConfirmButton: false,
+                            timer: 1500,
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Complete los campos',
+                        })
+                        return false;
+                    }
+                });
         });
 
     </script>

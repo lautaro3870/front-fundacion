@@ -287,6 +287,7 @@
                         }
                     })
                     Swal.fire('Eliminado!', '', 'success')
+                    getTabla();
                 } else if (result.isDenied) {
                     Swal.fire('Ficha no eliminada', '', 'info')
                     getTabla();
