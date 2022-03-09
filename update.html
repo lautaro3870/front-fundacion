@@ -70,6 +70,7 @@
             <div class="form-group col-md-4">
                 <label>Numero</label>
                 <input type="text" class="form-control" id="txtNumero" placeholder="Numero">
+
             </div>
             <div class="form-group col-md-2">
                 <label>Monto</label>
@@ -203,9 +204,25 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-4">
                 <h6 for="">Certificado Conformidad</h6>
                 <input id="certConformidad" type="checkbox">
+            </div>
+            <div class="form-group col-md-4">
+                <h6 for="">Ficha Lista?</h6>
+                <input id="idFichaLista" onclick="fichaSeleccionada()" type="checkbox">
+            </div>
+            <div class="form-group col-md-4">
+
+                <select name="" onchange="cambiarValor()" class="form-control" id="comboFicha">
+                    <option selected value="-1">Seleccione</option>
+                    <option value="0">Landaveri, Raúl</option>
+                    <option value="1">Lallana, Francisco</option>
+                    <option value="2">Nadal. Gustavo</option>
+                    <option value="3">Di Sbroiavacca, Nicolás</option>
+                    <option value="4">Dubrovsky, Hilda</option>
+                    <option value="5">Recalde, Marina</option>
+                </select>
             </div>
         </div>
         <br>
@@ -299,8 +316,32 @@
             }
         }
 
+        var coordinadorOpcion = false;
+        function mostrarCoordinador() {
+            coordinadorOpcion = document.getElementById("txtCordinador").checked;
+            console.log(coordinadorOpcion)
+        }
+
+        $(document).on('click', '#txtCordinador', function () {
+            // e.preventDefault();
+            idPersonal = $(this).parent().parent().children().first().text();
+            console.log(id);
+            coordinadorOpcion = document.getElementById("txtCordinador").checked;
+
+            for (const obj of objPersonal) {
+                if (obj.id == idPersonal) {
+                    obj.coordinador = coordinadorOpcion;
+                    coordinadorOpcion = false;
+                    break;
+                }
+            }
+
+            console.log(objPersonal)
+        });
+
         let personal = [];
         var objPersonal = [];
+        // var select;
         function imprimirValorPersonal() {
             var select = document.getElementById("txtPersonal");
             var options = document.getElementById("idOpcionPersonal");
@@ -309,16 +350,34 @@
                 return false;
             } else {
                 personal.push(select.value);
-                objPersonal.push({ id: select.value })
+                objPersonal.push(
+                    {
+                        id: select.value,
+                        coordinador: coordinadorOpcion
+                    })
                 console.log(objPersonal);
             }
         }
 
+        var i = 0;
         function removerPersonal(index) {
-            objPersonal.pop();
-            console.log(objPersonal);
             $('#row' + index).closest('tr').remove();
         }
+
+        $(document).on('click', '#btnEliminarPersonal', function () {
+            // e.preventDefault();
+
+            idPersonalEliminar = $(this).parent().parent().children().first().text();
+            const eliminado = objPersonal.findIndex(object => {
+                return object.id === idPersonalEliminar;
+            });
+            console.log(eliminado);
+            let a = objPersonal.splice(eliminado, 1);
+            console.log(a);
+            console.log(objPersonal)
+
+        })
+
 
         let btnAgregarPersonal = document.getElementById("btnAgregarPersonal");
 
@@ -333,8 +392,8 @@
             var nombre = combo.options[combo.selectedIndex].text;
             // var cantidad = document.getElementById("txtCantidad").value;
             // var precio = document.getElementById("txtPrecio").value;
-            var i = 1; //contador para asignar id al boton que borrara la fila
-            var fila = '<tr id="row' + i + '"><td>' + personal + '</td><td>' + nombre + '</td><td><input type=checkbox id="txtCordinador" /></td><td><button class="btn btn-outline-danger" onclick="removerPersonal(' + i + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
+            //contador para asignar id al boton que borrara la fila
+            var fila = '<tr id="row' + i + '"><td>' + personal + '</td><td>' + nombre + '</td><td><input type=checkbox onchange="mostrarCoordinador()" id="txtCordinador" /></td><td><button id="btnEliminarPersonal" onclick="removerPersonal(' + i + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
 
             i++;
 
@@ -344,6 +403,7 @@
             // document.getElementById("txtPrecio").value = "";
             // document.getElementById("txtIdArticulo").focus();
         }
+
 
         function mostrarDatos() {
             for (let row of mytable.rows) {
@@ -365,10 +425,42 @@
 
         //cargar tabla areas y remover
 
-        function removerArea(index) {
-            objAreas.pop();
-            console.log(objAreas);
-            $('#rowArea' + index).closest('tr').remove();
+
+
+        $(document).ready(function () {
+            fichaSeleccionada();
+        });
+
+        var comboFicha;
+        var comboFichaSeleccionada;
+
+        function fichaSeleccionada() {
+            var fichaLista = document.getElementById("idFichaLista").checked;
+
+            if (fichaLista) {
+                document.getElementById("comboFicha").disabled = !fichaLista;
+                comboFicha = document.getElementById("comboFicha").value;
+                comboFicha2 = document.getElementById("comboFicha");
+
+                comboFichaSeleccionada = comboFicha2.options[comboFicha2.selectedIndex].text;
+                console.log(comboFichaSeleccionada)
+            }
+            else {
+                document.getElementById("comboFicha").disabled = !fichaLista;
+                comboFicha2 = document.getElementById("comboFicha");
+                comboFichaSeleccionada = comboFicha2.options[comboFicha2.selectedIndex].text;
+                comboFichaSeleccionada = "";
+                comboFicha = -1;
+            }
+        }
+
+        function cambiarValor() {
+            comboFicha = document.getElementById("comboFicha").value;
+            comboFicha2 = document.getElementById("comboFicha");
+
+            comboFichaSeleccionada = comboFicha2.options[comboFicha2.selectedIndex].text;
+            console.log(comboFichaSeleccionada)
+
         }
 
         let btnAgregarArea = document.getElementById("btnAgregarArea");
@@ -377,6 +469,26 @@
         btnAgregarArea.addEventListener('click', mostrarDatosArea);
         btnAgregarArea.addEventListener('click', mostrarDatos2Area);
 
+        var indexArea = 0;
+        function removerArea(areaIndex) {
+            $('#rowArea' + areaIndex).closest('tr').remove();
+        }
+
+        $(document).on('click', '#btnEliminarArea', function (e) {
+            e.preventDefault();
+
+            idArea = $(this).parent().parent().children().first().text();
+
+            const eliminadoArea = objAreas.findIndex(object => {
+                return object.id == idArea;
+            });
+
+            console.log(eliminadoArea);
+            let area = objAreas.splice(eliminadoArea, 1);
+            console.log(area);
+            console.log(objAreas)
+
+        })
 
         function cargarTablaArea() {
             var area = document.getElementById("txtAreas").value;
@@ -384,10 +496,10 @@
             var nombre = combo.options[combo.selectedIndex].text;
             // var cantidad = document.getElementById("txtCantidad").value;
             // var precio = document.getElementById("txtPrecio").value;
-            var i = 1; //contador para asignar id al boton que borrara la fila
-            var fila = '<tr id="rowArea' + i + '"><td>' + area + '</td><td>' + nombre + '</td><td><button class="btn btn-outline-danger" onclick="removerArea(' + i + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
+            //contador para asignar id al boton que borrara la fila
+            var fila = '<tr id="rowArea' + indexArea + '"><td>' + area + '</td><td>' + nombre + '</td><td><button id="btnEliminarArea" onclick="removerArea(' + indexArea + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
 
-            i++;
+            indexArea++;
 
             $('#mytableArea tr:first').after(fila);
             // document.getElementById("txtPersonal").value = "";
@@ -423,6 +535,8 @@
         var monedaSeleccionada = moneda.options[moneda.selectedIndex].text;
         console.log(moneda);
 
+
+
         var depto = document.getElementById("txtDepartamento");
         var deptoSeleccionado = depto.options[depto.selectedIndex].text;
 
@@ -446,16 +560,19 @@
                 document.getElementById("txtEjecucion").checked = data[0].enCurso;
                 document.getElementById("txtConsultores").value = data[0].consultoresAsoc;
                 document.getElementById("txtDescProyexto").value = data[0].descripcion;
+                document.getElementById("comboFicha").value = data[0].certificadopor;
+                document.getElementById("idFichaLista").checked = data[0].fichaLista;
                 data[0].listaPersonal.forEach(i => {
-                    var fila = '<tr id="row' + i.id + '"><td>' + i.id + '</td><td>' + i.nombre + '</td><td><input type=checkbox id="txtCordinador" /></td><td><button onclick="removerPersonal(' + i.id + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
+                    var fila = '<tr id="row' + i.id + '"><td>' + i.id + '</td><td>' + i.nombre + '</td><td><input type=checkbox onchange="mostrarCoordinador()" id="txtCordinador"/></td><td><button id="btnEliminarPersonal" onclick="removerPersonal(' + i.id + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
                     $('#mytable tr:first').after(fila);
                     personal.push(i.id)
-                    objPersonal.push({ id: parseInt(i.id) })
+                    objPersonal.push({ id: parseInt(i.id), coordinador: coordinadorOpcion })
                     console.log(objPersonal);
                 });
 
                 data[0].listaAreas.forEach(i => {
-                    var fila = '<tr id="row' + i.id + '"><td>' + i.id + '</td><td>' + i.area1 + '</td><td><button onclick="removerArea(' + i.id + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
+                    //revisar si es row o rowArea
+                    var fila = '<tr id="rowArea' + i.id + '"><td>' + i.id + '</td><td>' + i.area1 + '</td><td><button id="btnEliminarArea" onclick="removerArea(' + i.id + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
                     $('#mytableArea tr:first').after(fila);
 
                     areas.push(parseInt(i.id));
@@ -503,6 +620,10 @@
             var depto = document.getElementById("txtDepartamento");
             var deptoSeleccionado = depto.options[depto.selectedIndex].text;
 
+            // comboFicha2 = document.getElementById("comboFicha");
+            // comboFicha = document.getElementById("comboFicha").value;
+            // comboFichaSeleccionada = comboFicha2.options[comboFicha2.selectedIndex].text;
+
             var data = {
                 id: parseInt(id),
                 titulo: document.getElementById("txtTitulo").value,
@@ -518,18 +639,17 @@
                 consultoresAsoc: document.getElementById("txtConsultores").value,
                 descripcion: document.getElementById("txtDescProyexto").value,
                 resultados: null,
-                fichaLista: false,
+                fichaLista: document.getElementById("idFichaLista").checked,
                 enCurso: enEjecucion,
                 departamento: deptoSeleccionado,
                 moneda: monedaSeleccionada,
                 certconformidad: document.getElementById("certConformidad").checked,
-                certificadopor: 1,
+                certificadopor: comboFicha,
                 activo: true,
                 areas: objAreas,
                 personal: objPersonal,
             };
 
-            localStorage.setItem("idProyecto", 0);
             console.log(data);
 
             fetch(url, {
@@ -559,6 +679,7 @@
                     }
                     //console.log("Success:", response)
                 });
+            localStorage.setItem("idProyecto", 0);
         });
 
     </script>
