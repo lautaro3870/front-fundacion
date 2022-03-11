@@ -183,9 +183,9 @@
                 })
         })
 
-        // $(document).ready(function () {
-        //     $('#users').DataTable();
-        // });
+        $(document).ready(function () {
+            getTabla();
+        });
 
         const meses = (entrada) => {
             let mes = "";
@@ -245,7 +245,6 @@
 
         } else {
             getTabla();
-
         }
 
         function getTabla() {
@@ -289,7 +288,7 @@
                         }
                     })
                     Swal.fire('Eliminado!', '', 'success')
-                    getTabla();
+                    // getTabla();
                 } else if (result.isDenied) {
                     Swal.fire('Ficha no eliminada', '', 'info')
                     getTabla();

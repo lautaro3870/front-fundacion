@@ -227,7 +227,6 @@
         </div>
         <br>
         <button type="submit" id="enviar" class="btn btn-primary">Guardar</button>
-        <button type="button" id="mostrar">Mostrar</button>
         <br><br>
     </form>
 
@@ -429,6 +428,7 @@
 
         $(document).ready(function () {
             fichaSeleccionada();
+
         });
 
         var comboFicha;
@@ -453,6 +453,8 @@
                 comboFicha = -1;
             }
         }
+
+
 
         function cambiarValor() {
             comboFicha = document.getElementById("comboFicha").value;
@@ -549,7 +551,7 @@
                 document.getElementById("txtDepartamento").value = data[0].departamento;
                 document.getElementById("txtPais").value = data[0].paisRegion;
                 document.getElementById("txtContratante").value = data[0].contratante;
-                document.getElementById("txtDireccion").value = data[0].direccion;
+                document.getElementById("txtDireccion").value = data[0].dirección;
                 document.getElementById("txtNumero").value = data[0].nroContrato;
                 document.getElementById("txtMonto").value = data[0].montoContrato;
                 document.getElementById("txtMoneda").value = data[0].moneda;
@@ -563,11 +565,30 @@
                 document.getElementById("comboFicha").value = data[0].certificadopor;
                 document.getElementById("idFichaLista").checked = data[0].fichaLista;
                 data[0].listaPersonal.forEach(i => {
+
                     var fila = '<tr id="row' + i.id + '"><td>' + i.id + '</td><td>' + i.nombre + '</td><td><input type=checkbox onchange="mostrarCoordinador()" id="txtCordinador"/></td><td><button id="btnEliminarPersonal" onclick="removerPersonal(' + i.id + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
                     $('#mytable tr:first').after(fila);
+
                     personal.push(i.id)
-                    objPersonal.push({ id: parseInt(i.id), coordinador: coordinadorOpcion })
-                    console.log(objPersonal);
+                    objPersonal.push(
+                        {
+                            id: parseInt(i.id),
+                            coordinador: i.coordinador
+                        }
+                    )
+
+                    for (const obj of objPersonal) {
+                        if (obj.coordinador) {
+                            console.log("esta chequeado")
+                            document.getElementById("txtCordinador").checked = true;
+                        }
+                        else {
+                            document.getElementById("txtCordinador").checked = false;
+                        }
+                    }
+
+
+
                 });
 
                 data[0].listaAreas.forEach(i => {
@@ -581,27 +602,27 @@
             })
 
 
-        let mostrar = document.getElementById("mostrar");
-        mostrar.addEventListener("click", (e) => {
-            e.preventDefault();
-            var parametros = [];
-            var parame = [];
-            $("#mytable tbody tr").each(function (i, e) {
+        // let mostrar = document.getElementById("mostrar");
+        // mostrar.addEventListener("click", (e) => {
+        //     e.preventDefault();
+        //     var parametros = [];
+        //     var parame = [];
+        //     $("#mytable tbody tr").each(function (i, e) {
 
-                // var tr = [];
-                $(this).find("td").each(function (index, element) {
-                    if (index != 0) // ignoramos el primer indice que dice Option #
-                    {
-                        var td = {};
-                        td["dato" + index] = $(this).find("td").val();
-                        objPersonal.push(td);
-                    }
-                });
-                //parametros.push(objPersonal);
-            });
+        //         // var tr = [];
+        //         $(this).find("td").each(function (index, element) {
+        //             if (index != 0) // ignoramos el primer indice que dice Option #
+        //             {
+        //                 var td = {};
+        //                 td["dato" + index] = $(this).find("td").val();
+        //                 objPersonal.push(td);
+        //             }
+        //         });
+        //         //parametros.push(objPersonal);
+        //     });
 
-            console.log(objPersonal);
-        })
+        //     console.log(objPersonal);
+        // })
 
 
         let boton = document.getElementById("enviar");
@@ -609,6 +630,7 @@
             e.preventDefault();
 
             var url = "https://proyecto-fundacion.herokuapp.com/api/Proyecto";
+            //var url = "https://localhost:44313/api/Proyecto";
 
             let enEjecucion = document.getElementById("txtEjecucion").checked;
             console.log(enEjecucion);
@@ -670,6 +692,9 @@
                             showConfirmButton: false,
                             timer: 1500,
                         })
+                        window.setInterval(() => {
+                            window.location = "/main.html";
+                        }, 2000)
                     } else {
                         Swal.fire({
                             icon: 'error',
