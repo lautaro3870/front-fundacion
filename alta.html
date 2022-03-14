@@ -25,7 +25,7 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">FB</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -645,6 +645,13 @@
                 return false;
             }
             else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Insercion Exitosa',
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
                 fetch(url, {
                     method: "POST", // or 'PUT'
                     body: JSON.stringify(data), // data can be `string` or {object}!
@@ -655,13 +662,7 @@
                     .then((res) => res)
                     //.catch((error) => console.error("Error:", error))
                     .then((data) => {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Insercion Exitosa',
-                            showConfirmButton: false,
-                            timer: 1500,
-                        })
+                        console.log(data)
                     });
             }
 
