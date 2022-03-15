@@ -49,8 +49,9 @@
             <div class="form-group col-md-4">
                 <label>Departamento</label>
                 <select name="" id="txtDepartamento" class="form-control">
-                    <option value="">ENERGIA</option>
-                    <option value="">MADE</option>
+                    <option value="ENERGIA">ENERGIA</option>
+                    <option value="MADE">MADE</option>
+                    <option value="ASC">ASC</option>
                 </select>
             </div>
         </div>
@@ -640,7 +641,7 @@
             if (tit === "") {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Complete los campos',
+                    title: 'Ingrese un Titulo',
                 })
                 return false;
             }

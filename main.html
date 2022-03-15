@@ -347,7 +347,14 @@
                 else {
                     html += "<td> " + datos[i].departamentos + "</td>";
                 }
-                html += "<td>" + datos[i].fichaLista + "</td>";
+                //html += "<td>" + datos[i].fichaLista + "</td>";
+
+                if (datos[i].fichaLista) {
+                    html += "<td>" + "Lista" + "</td>";
+                }
+                else {
+                    html += "<td>" + "No Lista" + "</td>";
+                }
 
                 html += "<td><button type='submit' class='btn btn-outline-danger mt-4' id='eliminar'><box-icon name='trash'></box-icon></button><button type='submit' class='btn btn-outline-primary mt-4' id='btnEditar'><box-icon name='edit-alt'></box-icon></button></td>";
 
