@@ -55,50 +55,68 @@
     </nav>
 
     <div class="container">
-        <form>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="inputState">Mes Desde</label>
-                    <select id="mesDesde" onchange="obtenerValorDesde()" class="form-control">
-                        <option selected>Seleccione</option>
-                        <option value="0" id="idMes">Enero</option>
-                        <option value="1" id="idMes">Febrero</option>
-                        <option value="2" id="idMes">Marzo</option>
-                        <option value="3" id="idMes">Abril</option>
-                        <option value="4" id="idMes">Mayo</option>
-                        <option value="5" id="idMes">Junio</option>
-                        <option value="6" id="idMes">Julio</option>
-                        <option value="7" id="idMes">Agosto</option>
-                        <option value="8" id="idMes">Septiembre</option>
-                        <option value="9" id="idMes">Octubre</option>
-                        <option value="10" id="idMes">Noviembre</option>
-                        <option value="11" id="idMes">Diciembre</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="inputState">Mes Hasta</label>
-                    <select id="mesHasta" onchange="obtenerValorHasta()" class="form-control">
-                        <option selected>Seleccione</option>
-                        <option value="0" id="idMes">Enero</option>
-                        <option value="1" id="idMes">Febrero</option>
-                        <option value="2" id="idMes">Marzo</option>
-                        <option value="3" id="idMes">Abril</option>
-                        <option value="4" id="idMes">Mayo</option>
-                        <option value="5" id="idMes">Junio</option>
-                        <option value="6" id="idMes">Julio</option>
-                        <option value="7" id="idMes">Agosto</option>
-                        <option value="8" id="idMes">Septiembre</option>
-                        <option value="9" id="idMes">Octubre</option>
-                        <option value="10" id="idMes">Noviembre</option>
-                        <option value="11" id="idMes">Diciembre</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-2">
-                    <button type="button" id="filtrar" class="btn btn-primary">Buscar</button>
+
+        <div class="class-row">
+            <div class="form-group col-md-5">
+            </div>
+
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+                Filtrar Tabla
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Filtros</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label>Pais</label>
+                                    <input type="text" class="form-control" id="pais">
+                                </div>
+                                <div class="form-group">
+                                    <label>Departamento</label>
+                                    <select name="" id="txtDepartamento" class="form-control">
+                                        <option value="" selected>Seleccione</option>
+                                        <option value="ENERGIA">ENERGIA</option>
+                                        <option value="MADE">MADE</option>
+                                        <option value="ASC">ASC</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Año Inicio</label>
+                                    <input type="number" class="form-control" id="anioInicio">
+                                </div>
+                                <div class="form-group">
+                                    <label>Año Fin</label>
+                                    <input type="number" class="form-control" id="anioFin">
+                                </div>
+                                <div class="form-group">
+                                    <label>Areas</label>
+                                    <select id="txtAreas" class="form-control">
+                                        <option id="idOpcionArea" value="" selected>Seleccione</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="filtrar" class="btn btn-primary">Filtrar</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-        </form>
+        </div>
+
+
+        <br><br>
 
         <div class="container">
             <table id="users" class="table table-bordered table-striped text-center mt-4">
@@ -127,16 +145,12 @@
     </div>
 
 
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -144,10 +158,34 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script> -->
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+
+
+        fetch("https://proyecto-fundacion.herokuapp.com/api/Areas")
+            .then((response) => response.json())
+            .then((data) => {
+                cargarCombo(data);
+            });
+
+        function cargarCombo(datos) {
+            var html = "<option value=''>Seleccione</option>";
+            $("#txtAreas").append(html);
+            select = document.getElementById("txtAreas");
+            for (let i = 0; i < datos.length; i++) {
+                var option = document.createElement("option");
+                option.value = datos[i].id;
+                option.text = datos[i].area1;
+                select.add(option);
+                //console.log(datos[i].area1);
+            }
+        }
 
         function obtenerValorDesde() {
             var select = document.getElementById("mesDesde");
@@ -168,11 +206,14 @@
 
             $("#users > tbody").empty();
 
-            var desde = document.getElementById("mesDesde");
-            var hasta = document.getElementById("mesHasta");
+            var desde = document.getElementById("anioInicio");
+            var hasta = document.getElementById("anioFin");
+            var pais = document.getElementById("pais").value;
 
-            fetch('https://proyecto-fundacion.herokuapp.com/api/proyecto?MesInicio=' + desde.value + '&MesFin=' + hasta.value)
+            var depto = document.getElementById("txtDepartamento").value;
+            //var deptoSeleccionado = depto.options[depto.selectedIndex].text;
 
+            fetch(`https://proyecto-fundacion.herokuapp.com/api/Proyecto?Id=&Titulo=&Pais=${pais}&MesInicio=&MesFin=&AnioInicio=${desde.value}&AnioFin=${hasta.value}&Departamento=${depto}`)
                 .then(response => response.json())
                 .then((data) => {
                     crearTabla(data);
