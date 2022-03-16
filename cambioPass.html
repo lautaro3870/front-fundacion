@@ -29,11 +29,13 @@
         </div>
 
         <button type="submit" id="boton" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-danger">Cancel</button>
+        <button type="button" onclick="cancelar()" class="btn btn-danger">Cancel</button>
     </form>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -44,10 +46,25 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
     <script>
+
+        function cancelar() {
+            window.location = "/main.html";
+        }
         let boton = document.getElementById("boton");
 
         boton.addEventListener("click", (e) => {
@@ -68,38 +85,22 @@
             }
             else {
 
-                const data = {
+                const datos = {
                     email: email,
                     passwordVieja: passVieja,
                     passwordNueva: passNueva
                 }
 
-                //const url = "https://localhost:44313/api/Personal/Update";
-                const url = "https://proyecto-fundacion.herokuapp.com/api/Personal/Update";
-                fetch(url, {
-                    method: "PUT",
-                    headers: {
-                        Accept: "application/json, text/plain, */*",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        passwordVieja: passVieja,
-                        passwordNueva: passNueva
-                    }),
-                })
-                    .then((response) => response)
-                    .then((data) => {
-                        console.log(data);
 
-                        if (data.status != 200) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Datos incorrectos',
-                            })
-
-                            return false;
-                        } else {
+                $.ajax({
+                    url: 'https://proyecto-fundacion.herokuapp.com/api/Personal/Update',
+                    type: "PUT",
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify(datos),
+                    success: function (result) {
+                        console.log(result);
+                        if (result) {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
@@ -108,17 +109,61 @@
                                 timer: 1500,
                             })
                                 .then(() => {
-                                    localStorage.setItem("email", "");
-                                    localStorage.setItem("password", "");
                                     window.location = '/index.html'
                                 })
-                            //window.location.replace("https://www.google.com") /*opens the target page while Id & password matches*/
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Datos incorrectos',
+                            })
                         }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
 
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
+
+                // fetch(url, {
+                //     method: "PUT",
+                //     headers: {
+                //         Accept: "application/json, text/plain, */*",
+                //         "Content-Type": "application/json",
+                //     },
+                //     body: JSON.stringify(datos),
+                // })
+                //     .then((response) => response)
+                //     .then((data) => {
+                //         console.log(data);
+
+                //         if (data.status != 200) {
+                //             Swal.fire({
+                //                 icon: 'error',
+                //                 title: 'Datos incorrectos',
+                //             })
+
+                //             return false;
+                //         } else {
+                //             Swal.fire({
+                //                 position: 'center',
+                //                 icon: 'success',
+                //                 title: 'Modificacion Exitosa',
+                //                 showConfirmButton: false,
+                //                 timer: 1500,
+                //             })
+                //                 .then(() => {
+                //                     localStorage.setItem("email", "");
+                //                     localStorage.setItem("password", "");
+                //                     window.location = '/index.html'
+                //                 })
+                //             //window.location.replace("https://www.google.com") /*opens the target page while Id & password matches*/
+                //         }
+
+                //     })
+                //     .catch((err) => {
+                //         console.log(err);
+                //     });
+
             }
 
         });

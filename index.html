@@ -65,6 +65,13 @@
         </form>
     </main>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
@@ -91,34 +98,64 @@
                 return false;
             }
             else {
+
+                const url = "https://proyecto-fundacion.herokuapp.com/api/Personal/Login";
+                //const url = "https://localhost:44313/api/Personal/Login";
+                // fetch(url, {
+                //     method: "POST",
+                //     headers: {
+                //         Accept: "application/json, text/plain, */*",
+                //         "Content-Type": "application/json",
+                //     },
+                //     body: JSON.stringify({
+                //         email: email,
+                //         password: pass
+                //     }),
+                // })
+                //     .then((response) => response)
+                //     .then((data) => {
+                //         console.log(data);
+
+                //         if (data.status != 200) {
+                //             Swal.fire({
+                //                 icon: 'error',
+                //                 title: 'Usuario y/o password incorrectos',
+                //             })
+                //             return false;
+                //         } else {
+                //             Swal.fire({
+                //                 position: 'center',
+                //                 icon: 'success',
+                //                 title: 'Login exitoso',
+                //                 showConfirmButton: false,
+                //                 timer: 1500,
+                //             })
+                //                 .then(() => {
+                //                     localStorage.setItem("email", email);
+
+                //                     window.location = '/main.html'
+                //                 })
+                //             //window.location.replace("https://www.google.com") /*opens the target page while Id & password matches*/
+                //         }
+
+                //     })
+                //     .catch((err) => {
+                //         console.log(err);
+                //     });
+
                 const data = {
                     email: email,
                     password: pass
                 }
-                const url = "https://proyecto-fundacion.herokuapp.com/api/Personal/Login";
-                //const url = "https://localhost:44313/api/Personal/Login";
-                fetch(url, {
-                    method: "POST",
-                    headers: {
-                        Accept: "application/json, text/plain, */*",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        password: pass
-                    }),
-                })
-                    .then((response) => response)
-                    .then((data) => {
-                        console.log(data);
-
-                        if (data.status != 200) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Usuario y/o password incorrectos',
-                            })
-                            return false;
-                        } else {
+                $.ajax({
+                    url: 'https://proyecto-fundacion.herokuapp.com/api/Personal/Login',
+                    type: "POST",
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (result) {
+                        console.log(result);
+                        if (result.ok) {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
@@ -126,18 +163,23 @@
                                 showConfirmButton: false,
                                 timer: 1500,
                             })
-                                .then(() => {
-                                    localStorage.setItem("email", email);
-
-                                    window.location = '/main.html'
-                                })
-                            //window.location.replace("https://www.google.com") /*opens the target page while Id & password matches*/
+                            localStorage.setItem("email", result.return.email);
+                            localStorage.setItem("pass", result.return.password);
+                            setInterval(() => {
+                                window.location = "/main.html"
+                            }, 2000)
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Usuario y/o password incorrectos',
+                            })
+                            return false;
                         }
-
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
             }
 
         })
