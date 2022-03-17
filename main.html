@@ -38,19 +38,16 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-
                 <li class="nav-item">
                     <a class="nav-link" href="alta.html">Alta <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="cambioPass.html">Cambio Password</a>
                 </li>
-
-                <li class="nav-item">
-                    <button onclick="cerrarSesion()" class="btn btn-primary">Cerrar Sesion</button>
-                </li>
             </ul>
-
+            <li class="nav-item justify-content-end">
+                <button onclick="cerrarSesion()" class="btn btn-primary">Cerrar Sesion</button>
+            </li>
         </div>
     </nav>
 
@@ -89,13 +86,15 @@
                                         <option value="ASC">ASC</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label>Año Inicio</label>
-                                    <input type="number" class="form-control" id="anioInicio">
-                                </div>
-                                <div class="form-group">
-                                    <label>Año Fin</label>
-                                    <input type="number" class="form-control" id="anioFin">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Desde</label>
+                                        <input type="number" class="form-control" id="anioInicio">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Hasta</label>
+                                        <input type="number" class="form-control" id="anioFin">
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Areas</label>
@@ -209,11 +208,12 @@
             var desde = document.getElementById("anioInicio");
             var hasta = document.getElementById("anioFin");
             var pais = document.getElementById("pais").value;
+            var area = document.getElementById("txtAreas").value;
 
             var depto = document.getElementById("txtDepartamento").value;
             //var deptoSeleccionado = depto.options[depto.selectedIndex].text;
 
-            fetch(`https://proyecto-fundacion.herokuapp.com/api/Proyecto?Id=&Titulo=&Pais=${pais}&MesInicio=&MesFin=&AnioInicio=${desde.value}&AnioFin=${hasta.value}&Departamento=${depto}`)
+            fetch(`https://proyecto-fundacion.herokuapp.com/api/Proyecto?Id=&Titulo=&Pais=${pais}&MesInicio=&MesFin=&AnioInicio=${desde.value}&AnioFin=${hasta.value}&Departamento=${depto}&Area=${area}`)
                 .then(response => response.json())
                 .then((data) => {
                     crearTabla(data);
