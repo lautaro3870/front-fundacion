@@ -62,111 +62,126 @@
 
     <script>
 
-        function cancelar() {
-            window.location = "/main.html";
+        var mail = localStorage.getItem("email");
+        if (mail == "null" || mail === undefined) {
+            Swal.fire({
+                icon: "error",
+                title: "Ingrese al sistema primero",
+                timer: 1500,
+            });
+            setTimeout(() => {
+                window.location = "/index.html";
+            }, 3000);
         }
-        let boton = document.getElementById("boton");
-
-        boton.addEventListener("click", (e) => {
-            e.preventDefault();
-
-
-            var email = localStorage.getItem("email");
-            var passVieja = document.getElementById("txtPassVieja").value;
-            var passNueva = document.getElementById("txtPassNueva").value;
-
-            if (passNueva === "") {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Complete los Campos',
-
-                })
-                return false;
+        else {
+            function cancelar() {
+                window.location = "/main.html";
             }
-            else {
+            let boton = document.getElementById("boton");
 
-                const datos = {
-                    email: email,
-                    passwordVieja: passVieja,
-                    passwordNueva: passNueva
+            boton.addEventListener("click", (e) => {
+                e.preventDefault();
+
+
+                var email = localStorage.getItem("email");
+                var passVieja = document.getElementById("txtPassVieja").value;
+                var passNueva = document.getElementById("txtPassNueva").value;
+
+                if (passNueva === "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Complete los Campos',
+
+                    })
+                    return false;
+                }
+                else {
+
+                    const datos = {
+                        email: email,
+                        passwordVieja: passVieja,
+                        passwordNueva: passNueva
+                    }
+
+
+                    $.ajax({
+                        url: 'https://proyecto-fundacion.herokuapp.com/api/Personal/Update',
+                        type: "PUT",
+                        dataType: "json",
+                        contentType: 'application/json',
+                        data: JSON.stringify(datos),
+                        success: function (result) {
+                            console.log(result);
+                            if (result) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Modificacion Exitosa',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                })
+                                    .then(() => {
+                                        window.location = '/index.html'
+                                    })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Datos incorrectos',
+                                })
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    })
+
+
+                    // fetch(url, {
+                    //     method: "PUT",
+                    //     headers: {
+                    //         Accept: "application/json, text/plain, */*",
+                    //         "Content-Type": "application/json",
+                    //     },
+                    //     body: JSON.stringify(datos),
+                    // })
+                    //     .then((response) => response)
+                    //     .then((data) => {
+                    //         console.log(data);
+
+                    //         if (data.status != 200) {
+                    //             Swal.fire({
+                    //                 icon: 'error',
+                    //                 title: 'Datos incorrectos',
+                    //             })
+
+                    //             return false;
+                    //         } else {
+                    //             Swal.fire({
+                    //                 position: 'center',
+                    //                 icon: 'success',
+                    //                 title: 'Modificacion Exitosa',
+                    //                 showConfirmButton: false,
+                    //                 timer: 1500,
+                    //             })
+                    //                 .then(() => {
+                    //                     localStorage.setItem("email", "");
+                    //                     localStorage.setItem("password", "");
+                    //                     window.location = '/index.html'
+                    //                 })
+                    //             //window.location.replace("https://www.google.com") /*opens the target page while Id & password matches*/
+                    //         }
+
+                    //     })
+                    //     .catch((err) => {
+                    //         console.log(err);
+                    //     });
+
                 }
 
-
-                $.ajax({
-                    url: 'https://proyecto-fundacion.herokuapp.com/api/Personal/Update',
-                    type: "PUT",
-                    dataType: "json",
-                    contentType: 'application/json',
-                    data: JSON.stringify(datos),
-                    success: function (result) {
-                        console.log(result);
-                        if (result) {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Modificacion Exitosa',
-                                showConfirmButton: false,
-                                timer: 1500,
-                            })
-                                .then(() => {
-                                    window.location = '/index.html'
-                                })
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Datos incorrectos',
-                            })
-                        }
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                })
+            });
+        }
 
 
-                // fetch(url, {
-                //     method: "PUT",
-                //     headers: {
-                //         Accept: "application/json, text/plain, */*",
-                //         "Content-Type": "application/json",
-                //     },
-                //     body: JSON.stringify(datos),
-                // })
-                //     .then((response) => response)
-                //     .then((data) => {
-                //         console.log(data);
-
-                //         if (data.status != 200) {
-                //             Swal.fire({
-                //                 icon: 'error',
-                //                 title: 'Datos incorrectos',
-                //             })
-
-                //             return false;
-                //         } else {
-                //             Swal.fire({
-                //                 position: 'center',
-                //                 icon: 'success',
-                //                 title: 'Modificacion Exitosa',
-                //                 showConfirmButton: false,
-                //                 timer: 1500,
-                //             })
-                //                 .then(() => {
-                //                     localStorage.setItem("email", "");
-                //                     localStorage.setItem("password", "");
-                //                     window.location = '/index.html'
-                //                 })
-                //             //window.location.replace("https://www.google.com") /*opens the target page while Id & password matches*/
-                //         }
-
-                //     })
-                //     .catch((err) => {
-                //         console.log(err);
-                //     });
-
-            }
-
-        });
     </script>
 </body>
 
