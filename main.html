@@ -39,7 +39,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="alta.html">Alta <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="alta.html">Nueva Ficha <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="cambioPass.html">Cambio Password</a>
@@ -365,6 +365,19 @@
             // console.log(posibleGanancia);
         });
 
+        $(document).on('click', '#btnImprimir', function () {
+            // e.preventDefault();
+            id = $(this).parent().parent().children().first().text();
+
+            console.log(id);
+            localStorage.setItem("idProyectoImprimir", id);
+            window.location = "conversorWord.html"
+            // console.log(codigo,descripcion,precio,stock,fechaVencimiento);
+            // let posibleGanancia = precio * stock;
+            // console.log(posibleGanancia);
+        });
+
+
         function crearTabla(datos) {
             for (var i = 0; i < datos.length; i++) {
 
@@ -407,7 +420,7 @@
                     html += "<td>" + "No Lista" + "</td>";
                 }
 
-                html += "<td><button type='submit' class='btn btn-outline-danger mt-4' id='eliminar'><box-icon name='trash'></box-icon></button><button type='submit' class='btn btn-outline-primary mt-4' id='btnEditar'><box-icon name='edit-alt'></box-icon></button></td>";
+                html += "<td><button type='submit' class='btn btn-outline-danger mt-4' id='eliminar'><box-icon name='trash'></box-icon></button><button type='submit' class='btn btn-outline-primary mt-4' id='btnEditar'><box-icon name='edit-alt'></box-icon></button><button class='btn btn-outline-primary mt-4' id='btnImprimir'><box-icon type='solid' name='printer'></box-icon></box-icon></button></td>";
 
                 html += "</tr>";
                 $("#cuerpoTabla").append(html);
