@@ -45,9 +45,8 @@
                     <a class="nav-link" href="cambioPass.html">Cambio Password</a>
                 </li>
             </ul>
-            <li class="nav-item justify-content-end">
-                <button onclick="cerrarSesion()" class="btn btn-primary">Cerrar Sesion</button>
-            </li>
+
+            <button onclick="cerrarSesion()" class="nav-item justify-content-end btn btn-primary">Cerrar Sesion</button>
         </div>
     </nav>
 
@@ -57,12 +56,18 @@
             <div class="form-group col-md-5">
             </div>
 
-            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
-                Filtrar Tabla
-            </button>
-            <button type="button" id="idBorrarFiltros" class="btn btn-danger">
-                Borrar Filtros
-            </button>
+            <div class="card-body d-flex">
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+                    Filtrar Tabla
+                </button>
+                <!-- <button type="button" id="imprimir" class="btn btn-secondary ml-auto">
+                    Imprimir Seleccionados
+                </button> -->
+                <button type="button" id="idBorrarFiltros" class="btn btn-danger ml-auto">
+                    Borrar Filtros
+                </button>
+
+            </div>
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -123,7 +128,7 @@
         <br><br>
 
         <div class="container">
-            <table id="users" class="table table-bordered table-striped text-center mt-4">
+            <table id="users" class="dataTable table table-bordered table-striped text-center mt-4">
                 <thead>
                     <tr id="numero">
                         <th data-field="Id">Id</th>
@@ -145,9 +150,7 @@
 
             </table>
         </div>
-
     </div>
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -165,8 +168,11 @@
         crossorigin="anonymous"></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
@@ -201,8 +207,8 @@
             console.log(select.value);
         }
 
+        var datosSeleccionados;
         let buscar = document.getElementById("filtrar");
-
         buscar.addEventListener('click', (e) => {
             e.preventDefault();
 
@@ -217,18 +223,31 @@
             var depto = document.getElementById("txtDepartamento").value;
             //var deptoSeleccionado = depto.options[depto.selectedIndex].text;
 
+
             fetch(`https://proyecto-fundacion.herokuapp.com/api/Proyecto?Id=&Titulo=&Pais=${pais}&MesInicio=&MesFin=&AnioInicio=${desde.value}&AnioFin=${hasta.value}&Departamento=${depto}&Area=${area}`)
                 .then(response => response.json())
                 .then((data) => {
-                    crearTabla(data);
-                    $('#users').DataTable();
-                    console.log(data);
+
+                    if (data.length == 0) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Sin Resultados',
+                            timer: 1500,
+                        })
+                    }
+                    else {
+                        $('#users').DataTable();
+                        crearTabla(data);
+                        console.log(data);
+                        datosSeleccionados = data;
+                    }
+
                 })
         })
 
-        $(document).ready(function () {
-            getTabla();
-        });
+        // $(document).ready(function () {
+        //     getTabla();
+        // });
 
         const meses = (entrada) => {
             let mes = "";
@@ -297,11 +316,33 @@
 
             $("#users > tbody").empty();
             getTabla();
+            //$('#users').DataTable();
+            datosSeleccionados = 0;
 
         })
 
-
         function getTabla() {
+            // $.ajax({
+            //     url: "https://proyecto-fundacion.herokuapp.com/api/proyecto",
+            //     success: function (data) {
+            //         var o = data//A la variable le asigno el json decodificado
+            //         tabla = $('#users').DataTable({
+            //             "data": o,
+            //             "columns": [
+            //                 { data: 'id' },
+            //                 { data: 'titulo' },
+            //                 { data: 'paisRegion' },
+            //                 { data: 'mesInicio' },
+            //                 { data: 'anioInicio' },
+            //                 { data: 'mesFinalizacion' },
+            //                 { data: 'anioFinalizacion' },
+            //                 { data: 'fichaLista' },
+            //                 { data: 'listaAreas' },
+            //                 { data: 'departamentos' },
+            //             ],
+            //         });
+            //     }
+            // });
             fetch('https://proyecto-fundacion.herokuapp.com/api/proyecto')
                 .then(response => response.json())
                 .then((data) => {
@@ -431,6 +472,11 @@
             localStorage.setItem("email", null);
             window.location = "/index.html";
         }
+
+        let botonImprimir = document.getElementById("imprimir");
+        botonImprimir.addEventListener("click", () => {
+            console.log(datosSeleccionados)
+        })
 
     </script>
 </body>

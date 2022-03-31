@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+
+<body>
+
+    Pais: <input id="pais" type="text">
+    <br>
+    <button id="buscar">Buscar</button>
+    <table id="example" class="dataTable table table-bordered table-striped text-center mt-4">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Pais</th>
+                <th>Mes Inicio</th>
+                <th>Año Inicio</th>
+                <th>Mes Fin</th>
+                <th>Año Fin</th>
+                <th>Areas</th>
+                <th>Departamentos</th>
+                <th>Lista</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+    </table>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+    <!-- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
+
+    <script>
+
+        var boton = document.getElementById("buscar");
+        boton.addEventListener("click", () => {
+            var pais = document.getElementById("pais").value;
+            console.log(pais)
+            $.ajax({
+                url: `https://proyecto-fundacion.herokuapp.com/api/Proyecto?Id=&Titulo=&Pais=${pais}&MesInicio=&MesFin=&AnioInicio=&AnioFin=&Departamento=&Area=`,
+                success: function (data) {
+                    var o = data//A la variable le asigno el json decodificado
+                    console.log(o)
+                    tabla.destroy();
+                    tabla = $('#example').DataTable({
+                        "data": o,
+                        "columns": [
+                            { data: 'id' },
+                            { data: 'titulo' },
+                            { data: 'paisRegion' },
+                            { data: 'mesInicio' },
+                            { data: 'anioInicio' },
+                            { data: 'mesFinalizacion' },
+                            { data: 'anioFinalizacion' },
+                            { data: 'fichaLista' },
+                            { data: 'listaAreas[ - ].area1' },
+                            { data: 'departamentos' },
+                        ],
+                    });
+                }
+            });
+
+        })
+
+        $(document).ready(function () {
+            $.ajax({
+                url: "https://proyecto-fundacion.herokuapp.com/api/proyecto",
+                success: function (data) {
+                    var o = data//A la variable le asigno el json decodificado
+                    tabla = $('#example').DataTable({
+                        "data": o,
+                        "columns": [
+                            { data: 'id' },
+                            { data: 'titulo' },
+                            { data: 'paisRegion' },
+                            { data: 'mesInicio' },
+                            { data: 'anioInicio' },
+                            { data: 'mesFinalizacion' },
+                            { data: 'anioFinalizacion' },
+                            { data: 'fichaLista' },
+                            { data: 'listaAreas[ - ].area1' },
+                            { data: 'departamentos' },
+                        ],
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
