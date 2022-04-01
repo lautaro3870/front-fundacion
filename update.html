@@ -86,57 +86,61 @@
                 </select>
             </div>
             <div class="form-group col-md-2">
-                <label>Mes Inicio</label>
-                <select id="mesDesde" class="form-control">
-                    <option selected>Seleccione</option>
-                    <option value="0" id="idMes">Enero</option>
-                    <option value="1" id="idMes">Febrero</option>
-                    <option value="2" id="idMes">Marzo</option>
-                    <option value="3" id="idMes">Abril</option>
-                    <option value="4" id="idMes">Mayo</option>
-                    <option value="5" id="idMes">Junio</option>
-                    <option value="6" id="idMes">Julio</option>
-                    <option value="7" id="idMes">Agosto</option>
-                    <option value="8" id="idMes">Septiembre</option>
-                    <option value="9" id="idMes">Octubre</option>
-                    <option value="10" id="idMes">Noviembre</option>
-                    <option value="11" id="idMes">Diciembre</option>
-                </select>
-            </div>
-            <div class="form-group col-md-2">
-                <label>Año Inicio</label>
-                <input type="number" class="form-control" id="txtAnioInicio">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <label>Mes Fin</label>
-                <select id="mesHasta" class="form-control">
-                    <option selected>Seleccione</option>
-                    <option value="0" id="idMes">Enero</option>
-                    <option value="1" id="idMes">Febrero</option>
-                    <option value="2" id="idMes">Marzo</option>
-                    <option value="3" id="idMes">Abril</option>
-                    <option value="4" id="idMes">Mayo</option>
-                    <option value="5" id="idMes">Junio</option>
-                    <option value="6" id="idMes">Julio</option>
-                    <option value="7" id="idMes">Agosto</option>
-                    <option value="8" id="idMes">Septiembre</option>
-                    <option value="9" id="idMes">Octubre</option>
-                    <option value="10" id="idMes">Noviembre</option>
-                    <option value="11" id="idMes">Diciembre</option>
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label>Año Fin</label>
-                <input type="number" class="form-control" id="txtAnioFin">
-            </div>
-            <div class="form-group col-md-2">
                 <label for="">Ejecución</label>
             </div>
             <div class="form-group col-md-1">
                 <input type="checkbox" class="form-control" id="txtEjecucion">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label>Mes Fin</label>
+                <select id="mesHasta" class="form-control">
+                    <option value="null" selected>Seleccione</option>
+                    <option value="0" id="idMes">Enero</option>
+                    <option value="1" id="idMes">Febrero</option>
+                    <option value="2" id="idMes">Marzo</option>
+                    <option value="3" id="idMes">Abril</option>
+                    <option value="4" id="idMes">Mayo</option>
+                    <option value="5" id="idMes">Junio</option>
+                    <option value="6" id="idMes">Julio</option>
+                    <option value="7" id="idMes">Agosto</option>
+                    <option value="8" id="idMes">Septiembre</option>
+                    <option value="9" id="idMes">Octubre</option>
+                    <option value="10" id="idMes">Noviembre</option>
+                    <option value="11" id="idMes">Diciembre</option>
+                </select>
+            </div>
+            <div class="form-group col-md-1">
+                <label>Año Fin</label>
+                <input type="number" class="form-control" id="txtAnioFin">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputState">Mes Inicio</label>
+                <select id="mesDesde" class="form-control">
+                    <option value="null" selected>Seleccione</option>
+                    <option value="0" id="idMes">Enero</option>
+                    <option value="1" id="idMes">Febrero</option>
+                    <option value="2" id="idMes">Marzo</option>
+                    <option value="3" id="idMes">Abril</option>
+                    <option value="4" id="idMes">Mayo</option>
+                    <option value="5" id="idMes">Junio</option>
+                    <option value="6" id="idMes">Julio</option>
+                    <option value="7" id="idMes">Agosto</option>
+                    <option value="8" id="idMes">Septiembre</option>
+                    <option value="9" id="idMes">Octubre</option>
+                    <option value="10" id="idMes">Noviembre</option>
+                    <option value="11" id="idMes">Diciembre</option>
+                </select>
+            </div>
+            <div class="form-group col-md-1">
+                <label>Año Inicio</label>
+                <input type="number" class="form-control" id="txtAnioInicio">
+            </div>
+            <div class="form-group col-md-4">
+                <label>Link</label>
+                <input type="text" class="form-control" id="txtLink">
             </div>
         </div>
 
@@ -564,6 +568,7 @@
                 document.getElementById("txtConsultores").value = data[0].consultoresAsoc;
                 document.getElementById("txtDescProyexto").value = data[0].descripcion;
                 document.getElementById("comboFicha").value = data[0].certificadopor;
+                document.getElementById("txtLink").value = data[0].link;
                 document.getElementById("idFichaLista").checked = data[0].fichaLista;
                 data[0].listaPersonal.forEach(i => {
 
@@ -671,6 +676,7 @@
                 activo: true,
                 areas: objAreas,
                 personal: objPersonal,
+                link: document.getElementById("txtLink").value
             };
 
             console.log(data);
