@@ -89,27 +89,9 @@
                     <option value="PESOS">PESOS</option>
                 </select>
             </div>
-            <div class="form-group col-md-2">
-                <label for="inputState">Mes Inicio</label>
-                <select id="mesDesde" class="form-control">
-                    <option selected>Seleccione</option>
-                    <option value="0" id="idMes">Enero</option>
-                    <option value="1" id="idMes">Febrero</option>
-                    <option value="2" id="idMes">Marzo</option>
-                    <option value="3" id="idMes">Abril</option>
-                    <option value="4" id="idMes">Mayo</option>
-                    <option value="5" id="idMes">Junio</option>
-                    <option value="6" id="idMes">Julio</option>
-                    <option value="7" id="idMes">Agosto</option>
-                    <option value="8" id="idMes">Septiembre</option>
-                    <option value="9" id="idMes">Octubre</option>
-                    <option value="10" id="idMes">Noviembre</option>
-                    <option value="11" id="idMes">Diciembre</option>
-                </select>
-            </div>
-            <div class="form-group col-md-2">
-                <label>Año Inicio</label>
-                <input type="number" class="form-control" id="txtAnioInicio">
+            <div class="form-group col-md-4">
+                <label class="text-center" for="">Ejecución</label>
+                <input type="checkbox" class="form-control" id="txtEjecucion">
             </div>
         </div>
 
@@ -132,16 +114,32 @@
                     <option value="11" id="idMes">Diciembre</option>
                 </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
                 <label>Año Fin</label>
                 <input type="number" class="form-control" id="txtAnioFin">
             </div>
             <div class="form-group col-md-4">
-                <label class="text-center" for="">Ejecución</label>
-                <input type="checkbox" class="form-control" id="txtEjecucion">
+                <label for="inputState">Mes Inicio</label>
+                <select id="mesDesde" class="form-control">
+                    <option selected>Seleccione</option>
+                    <option value="0" id="idMes">Enero</option>
+                    <option value="1" id="idMes">Febrero</option>
+                    <option value="2" id="idMes">Marzo</option>
+                    <option value="3" id="idMes">Abril</option>
+                    <option value="4" id="idMes">Mayo</option>
+                    <option value="5" id="idMes">Junio</option>
+                    <option value="6" id="idMes">Julio</option>
+                    <option value="7" id="idMes">Agosto</option>
+                    <option value="8" id="idMes">Septiembre</option>
+                    <option value="9" id="idMes">Octubre</option>
+                    <option value="10" id="idMes">Noviembre</option>
+                    <option value="11" id="idMes">Diciembre</option>
+                </select>
             </div>
-            <!-- <div class="form-group col-md-1">
-            </div> -->
+            <div class="form-group col-md-2">
+                <label>Año Inicio</label>
+                <input type="number" class="form-control" id="txtAnioInicio">
+            </div>
         </div>
 
         <div class="form-row">
@@ -317,7 +315,7 @@
                 });
 
             function cargarCombo(datos) {
-                var html = "<option value=''>Seleccione</option>";
+                var html = "";
                 $("#txtAreas").append(html);
                 select = document.getElementById("txtAreas");
                 for (let i = 0; i < datos.length; i++) {
@@ -329,8 +327,10 @@
                 }
             }
 
+            //<option value=''>Seleccione</option>
+
             function cargarComboPersonal(datos) {
-                var html = "<option value=''>Seleccione</option>";
+                var html = "";
                 $("#txtPersonal").append(html);
                 select = document.getElementById("txtPersonal");
                 for (let i = 0; i < datos.length; i++) {

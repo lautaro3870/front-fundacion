@@ -138,7 +138,8 @@
                         <th data-field="AnioInicio">Año Inicio</th>
                         <th data-field="MesFin">Mes Fin</th>
                         <th data-field="AnioFin">Año Fin</th>
-                        <th data-field="Areas">Areas</th>
+                        <th data-field="Presupuesto">Presupuesto</th>
+                        <th data-field="Areas">Areas Tematicas</th>
                         <th data-field="Departamentos">Departamentos</th>
                         <th data-field="FichaLista">Lista</th>
                         <th data-field="Acciones">Acciones</th>
@@ -436,6 +437,7 @@
                 html += "<td>" + datos[i].anioInicio + "</td>";
                 html += "<td>" + meses(mesesFin) + "</td>";
                 html += "<td>" + datos[i].anioFinalizacion + "</td>";
+                html += "<td>" + datos[i].moneda + " " + datos[i].montoContrato + "</td>";
 
                 for (let j = 0; j < listaAreas.length; j++) {
                     if (j === listaAreas.length - 1) {
