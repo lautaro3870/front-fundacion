@@ -159,6 +159,31 @@
                 <textarea name="" id="txtDescProyexto" class="form-control" cols="30" rows="5"></textarea>
             </div>
         </div>
+
+        <!-- Publicaciones -->
+        <h3>Publicaciones</h3>
+        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary">+</button>
+        <br>
+        <br>
+        <div class="panel-body table-responsive">
+            <table id="mytablePublicacion" class="container table">
+                <thead class="container">
+                    <tr>
+                        <th>ID</th>
+                        <th>Año</th>
+                        <th>Codigo BSC</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+            </table>
+            <tbody id="mytableBodyPublicacion">
+
+            </tbody>
+        </div>
+
+        <hr>
+
+        <!-- Personal -->
         <div class="form-row">
             <div class="form-group col-md-7">
                 <label>Personal</label>
@@ -184,6 +209,8 @@
 
                 </tbody>
             </div>
+
+            <!-- Areas -->
             <div class="form-group col-md-7">
                 <label>Areas</label>
                 <select id="txtAreas" class="form-control">
@@ -237,7 +264,7 @@
         <br><br>
     </form>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -262,6 +289,46 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="">Año</label>
+                                <input type="text" class="form-control" id="txtAnioPubli" placeholder="Año">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="">Codigo BCS</label>
+                                <input type="text" class="form-control" id="txtCodigoBcs" placeholder="Codigo BSC">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Publicacion</label>
+                                <textarea class="form-control" name="" id="txtPublicacion" cols="10"
+                                    rows="5"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnPublicacion" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
         </div>
@@ -449,9 +516,7 @@
             i++;
 
             $('#mytable tr:first').after(fila);
-
         }
-
 
         function mostrarDatos() {
             for (let row of mytable.rows) {
@@ -535,13 +600,123 @@
             });
         }
 
-        // document.getElementById("idFichaLista").onchange = function () {
-        //     var fichaLista = document.getElementById("idFichaLista").checked;
-        //     if (fichaLista) {
-        //         document.getElementById("comboFicha").removeAttribute("disabled");
-        //     }
+        //Publicaciones
+        var indexPublicacion = 0;
+        let publicacionBtn = document.getElementById("btnPublicacion");
 
+        let publicacion = [];
+        var objPublicacion = [];
+        // var select;
+        var iPubli = 0;
+        function imprimirValorPublicacion() {
+            var txtPubli = document.getElementById("txtPublicacion").value;
+            var anio = document.getElementById("txtAnioPubli").value;
+            var codigoBcs = document.getElementById("txtCodigoBcs").value;
+            //publicacion.push(select.value);
+            objPublicacion.push(
+                {
+                    idPublicacion: iPubli,
+                    año: anio,
+                    publicacion: txtPubli,
+                    codigobcs: codigoBcs
+                })
+            console.log(objPublicacion);
+            iPubli++;
+        }
+
+        publicacionBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            cargarTablaPublicacion();
+            imprimirValorPublicacion();
+        });
+        publicacionBtn.addEventListener("click", mostrarDatosPublicacion());
+        publicacionBtn.addEventListener("click", mostrarDatos2Publicacion());
+
+        // function removerPublicacion(pubicacionIdex) {
+        //     $('#rowPubli' + pubicacionIdex).closest('tr').remove();
         // }
+
+        var removido = 0;
+        const removerPublicacion = (pubicacionIdex) => {
+            $('#rowPubli' + pubicacionIdex).closest('tr').remove();
+            removido = pubicacionIdex;
+        }
+
+        var masInfo = 0;
+        const funcionMasInfo = (j) => {
+            console.log(j)
+            masInfo = j;
+        }
+
+        function cargarTablaPublicacion() {
+            var txtPubli = document.getElementById("txtPublicacion").value;
+            var anio = document.getElementById("txtAnioPubli").value;
+            var codigoBcs = document.getElementById("txtCodigoBcs").value;
+            //var fila = '<tr id="rowArea' + indexArea + '"><td>' + area + '</td><td>' + nombre + '</td><td><button id="btnEliminarArea" onclick="removerArea(' + indexArea + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
+            var fila = '<tr id="rowPubli' + indexPublicacion + '"><td>' + indexPublicacion + '</td><td>' + anio + '</td><td>' + codigoBcs + '</td><td><button class="btn btn-primary" id="btnEliminarPublicacion" onclick="removerPublicacion(' + indexPublicacion + ')" type=button><box-icon name="trash"></box-icon></button>' +
+                '<button data-toggle="modal" data-target="#exampleModal" id="btnMasInfo" onclick="funcionMasInfo( ' + indexPublicacion + ')" class="btn btn-secondary" type="button"><box-icon name="bookmark"></box-icon></button></td></tr>';
+
+            indexPublicacion++;
+
+            $('#mytablePublicacion tr:first').after(fila);
+
+        }
+
+        function mostrarDatosPublicacion() {
+            for (let row of mytablePublicacion.rows) {
+                for (let cell of row.cells) {
+                    console.log(cell);
+                    console.log(cell.textContent);
+                    console.log(cell.firstChild);
+                }
+            }
+        }
+
+        function mostrarDatos2Publicacion() {
+            $('#mytablePublicacion tr').each(function () {
+                $(this).find('td').each(function () {
+                    console.log($(this));
+                });
+            });
+        }
+
+        //var codigoBcs;
+        $(document).on('click', '#btnEliminarPublicacion', function (e) {
+            e.preventDefault();
+            console.log(removido);
+            console.log(indexPublicacion)
+
+            //idPubli = $(this).parent().parent().children().first().text();
+            //codigoBcs = document.getElementById("txtCodigoBcs").value;
+
+
+            const eliminadoPublicacion = objPublicacion.findIndex(object => {
+                return object.idPublicacion == removido;
+            });
+
+            console.log(eliminadoPublicacion);
+            let p = objPublicacion.splice(eliminadoPublicacion, 1);
+            console.log(p);
+            console.log(objPublicacion)
+            codigoBcs = 0;
+        })
+
+        $(document).on('click', '#btnMasInfo', function (e) {
+            e.preventDefault();
+            console.log(masInfo);
+
+            objPublicacion.forEach(element => {
+                if (element.idPublicacion == masInfo) {
+                    document.getElementById("txtPublicacion").disabled = true;
+                    document.getElementById("txtAnioPubli").disabled = true;
+                    document.getElementById("txtCodigoBcs").disabled = true;
+                    document.getElementById("txtPublicacion").value = element.publicacion;
+                    document.getElementById("txtAnioPubli").value = element.año;
+                    document.getElementById("txtCodigoBcs").value = element.codigobcs;
+
+                }
+            });
+        })
 
         $(document).ready(function () {
             fichaSeleccionada();
@@ -618,7 +793,8 @@
                 activo: true,
                 areas: objAreas,
                 personal: objPersonal,
-                link: document.getElementById("txtLink").value
+                link: document.getElementById("txtLink").value,
+                publicaciones: objPublicacion
             };
 
             console.log(data);
