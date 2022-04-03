@@ -643,7 +643,7 @@
             var codigoBcs = document.getElementById("txtCodigoBcs").value;
             //var fila = '<tr id="rowArea' + indexArea + '"><td>' + area + '</td><td>' + nombre + '</td><td><button id="btnEliminarArea" onclick="removerArea(' + indexArea + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
             var fila = '<tr id="rowPubli' + indexPublicacion + '"><td>' + indexPublicacion + '</td><td>' + anio + '</td><td>' + codigoBcs + '</td><td><button class="btn btn-primary" id="btnEliminarPublicacion" onclick="removerPublicacion(' + indexPublicacion + ')" type=button><box-icon name="trash"></box-icon></button>' +
-                '<button data-toggle="modal" data-target="#exampleModal" id="btnMasInfo" onclick="funcionMasInfo( ' + indexPublicacion + ')" class="btn btn-secondary" type="button"><box-icon name="bookmark"></box-icon></button></td></tr>';
+                '<button data-toggle="modal" data-target="#exampleModal" id="btnMasInfo" onclick="funcionMasInfo( ' + indexPublicacion + ')" class="btn btn-secondary" type="button"><box-icon name="info-circle"></box-icon></button></td></tr>';
 
             indexPublicacion++;
 
@@ -774,7 +774,7 @@
 
                 data[0].listaPublicaciones.forEach(i => {
                     var fila = '<tr id="rowPubli' + i.idPublicacion + '"><td>' + i.idPublicacion + '</td><td>' + i.año + '</td><td>' + i.codigobcs + '</td><td><button class="btn btn-primary" id="btnEliminarPublicacion" onclick="removerPublicacion(' + i.idPublicacion + ')" type=button><box-icon name="trash"></box-icon></button>' +
-                        '<button data-toggle="modal" data-target="#exampleModal" id="btnMasInfo" onclick="funcionMasInfo( ' + i.idPublicacion + ')" class="btn btn-secondary" type="button"><box-icon name="bookmark"></box-icon></button></td></tr>';
+                        '<button data-toggle="modal" data-target="#exampleModal" id="btnMasInfo" onclick="funcionMasInfo( ' + i.idPublicacion + ')" class="btn btn-secondary" type="button"><box-icon name="info-circle"></box-icon></button></td></tr>';
 
                     $('#mytablePublicacion tr:first').after(fila);
 
