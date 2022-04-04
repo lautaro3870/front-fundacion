@@ -342,7 +342,9 @@
                 .then(response => response.json())
                 .then((data) => {
                     crearTabla(data);
-                    $('#users').DataTable();
+                    $('#users').DataTable({
+                        "order": [[0, "desc"]]
+                    });
                 })
         }
 

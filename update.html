@@ -95,28 +95,6 @@
 
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label>Mes Fin</label>
-                <select id="mesHasta" class="form-control">
-                    <option value="null" selected>Seleccione</option>
-                    <option value="0" id="idMes">Enero</option>
-                    <option value="1" id="idMes">Febrero</option>
-                    <option value="2" id="idMes">Marzo</option>
-                    <option value="3" id="idMes">Abril</option>
-                    <option value="4" id="idMes">Mayo</option>
-                    <option value="5" id="idMes">Junio</option>
-                    <option value="6" id="idMes">Julio</option>
-                    <option value="7" id="idMes">Agosto</option>
-                    <option value="8" id="idMes">Septiembre</option>
-                    <option value="9" id="idMes">Octubre</option>
-                    <option value="10" id="idMes">Noviembre</option>
-                    <option value="11" id="idMes">Diciembre</option>
-                </select>
-            </div>
-            <div class="form-group col-md-1">
-                <label>Año Fin</label>
-                <input type="number" class="form-control" id="txtAnioFin">
-            </div>
-            <div class="form-group col-md-3">
                 <label for="inputState">Mes Inicio</label>
                 <select id="mesDesde" class="form-control">
                     <option value="null" selected>Seleccione</option>
@@ -138,6 +116,29 @@
                 <label>Año Inicio</label>
                 <input type="number" class="form-control" id="txtAnioInicio">
             </div>
+            <div class="form-group col-md-3">
+                <label>Mes Fin</label>
+                <select id="mesHasta" class="form-control">
+                    <option value="null" selected>Seleccione</option>
+                    <option value="0" id="idMes">Enero</option>
+                    <option value="1" id="idMes">Febrero</option>
+                    <option value="2" id="idMes">Marzo</option>
+                    <option value="3" id="idMes">Abril</option>
+                    <option value="4" id="idMes">Mayo</option>
+                    <option value="5" id="idMes">Junio</option>
+                    <option value="6" id="idMes">Julio</option>
+                    <option value="7" id="idMes">Agosto</option>
+                    <option value="8" id="idMes">Septiembre</option>
+                    <option value="9" id="idMes">Octubre</option>
+                    <option value="10" id="idMes">Noviembre</option>
+                    <option value="11" id="idMes">Diciembre</option>
+                </select>
+            </div>
+            <div class="form-group col-md-1">
+                <label>Año Fin</label>
+                <input type="number" class="form-control" id="txtAnioFin">
+            </div>
+
             <div class="form-group col-md-4">
                 <label>Link</label>
                 <input type="text" class="form-control" id="txtLink">
@@ -260,46 +261,48 @@
         <button type="submit" id="enviar" class="btn btn-primary">Guardar</button>
         <br><br>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="">Año</label>
-                                    <input type="text" class="form-control" id="txtAnioPubli" placeholder="Año">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="">Codigo BCS</label>
-                                    <input type="text" class="form-control" id="txtCodigoBcs" placeholder="Codigo BSC">
-                                </div>
+
+    </form>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formPublicacion" action="">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="">Año</label>
+                                <input type="text" class="form-control" id="txtAnioPubli" placeholder="Año">
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label>Publicacion</label>
-                                    <textarea class="form-control" name="" id="txtPublicacion" cols="10"
-                                        rows="5"></textarea>
-                                </div>
+                            <div class="form-group col-md-6">
+                                <label for="">Codigo BCS</label>
+                                <input type="text" class="form-control" id="txtCodigoBcs" placeholder="Codigo BSC">
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="btnPublicacion" class="btn btn-primary">Guardar</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                    </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Publicacion</label>
+                                <textarea class="form-control" name="" id="txtPublicacion" cols="10"
+                                    rows="5"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnPublicacion" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -617,6 +620,7 @@
             e.preventDefault();
             cargarTablaPublicacion();
             imprimirValorPublicacion();
+            document.getElementById("formPublicacion").reset();
         });
         publicacionBtn.addEventListener("click", mostrarDatosPublicacion());
         publicacionBtn.addEventListener("click", mostrarDatos2Publicacion());
