@@ -71,7 +71,6 @@
             <div class="form-group col-md-4">
                 <label>Numero</label>
                 <input type="text" class="form-control" id="txtNumero" placeholder="Numero">
-
             </div>
             <div class="form-group col-md-2">
                 <label>Monto</label>
@@ -87,9 +86,11 @@
             </div>
             <div class="form-group col-md-2">
                 <label for="">Ejecución</label>
-            </div>
-            <div class="form-group col-md-1">
                 <input type="checkbox" class="form-control" id="txtEjecucion">
+            </div>
+            <div class="form-group col-md-2">
+                <label class="text-center" for="">Convenio/Acuerdo</label>
+                <input type="checkbox" class="form-control" id="txtConvenio">
             </div>
         </div>
 
@@ -744,6 +745,7 @@
                 document.getElementById("comboFicha").value = data[0].certificadopor;
                 document.getElementById("txtLink").value = data[0].link;
                 document.getElementById("idFichaLista").checked = data[0].fichaLista;
+                document.getElementById("txtConvenio").checked = data[0].convenio;
                 data[0].listaPersonal.forEach(i => {
 
                     var fila = '<tr id="row' + i.id + '"><td>' + i.id + '</td><td>' + i.nombre + '</td><td><input type=checkbox onchange="mostrarCoordinador()" id="txtCordinador"/></td><td><button id="btnEliminarPersonal" onclick="removerPersonal(' + i.id + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
@@ -843,7 +845,8 @@
                 areas: objAreas,
                 personal: objPersonal,
                 link: document.getElementById("txtLink").value,
-                publicaciones: objPublicacion
+                publicaciones: objPublicacion,
+                convenio: document.getElementById("txtConvenio").checked
             };
 
             console.log(data);

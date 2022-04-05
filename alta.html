@@ -71,6 +71,8 @@
             </div>
         </div>
 
+        <hr>
+
         <h3>Datos del Contrato</h3>
         <div class="form-row">
             <div class="form-group col-md-4">
@@ -89,9 +91,13 @@
                     <option value="PESOS">PESOS</option>
                 </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
                 <label class="text-center" for="">Ejecución</label>
                 <input type="checkbox" class="form-control" id="txtEjecucion">
+            </div>
+            <div class="form-group col-md-2">
+                <label class="text-center" for="">Convenio/Acuerdo</label>
+                <input type="checkbox" class="form-control" id="txtConvenio">
             </div>
         </div>
 
@@ -160,6 +166,8 @@
                 <textarea name="" id="txtDescProyexto" class="form-control" cols="30" rows="5"></textarea>
             </div>
         </div>
+
+        <hr>
 
         <!-- Publicaciones -->
         <h3>Publicaciones</h3>
@@ -766,7 +774,8 @@
                 areas: objAreas,
                 personal: objPersonal,
                 link: document.getElementById("txtLink").value,
-                publicaciones: objPublicacion
+                publicaciones: objPublicacion,
+                convenio: document.getElementById("txtConvenio").checked,
             };
 
             console.log(data);
@@ -787,6 +796,13 @@
                     timer: 1500,
                 })
                 document.getElementById("formulario").reset();
+                $("#myTable > tbody").empty();
+                $("#myTableArea > tbody").empty();
+                objAreas = [];
+                objPersonal = [];
+                setInterval(() => {
+                    location.reload();
+                }, 2000)
                 fetch(url, {
                     method: "POST", // or 'PUT'
                     body: JSON.stringify(data), // data can be `string` or {object}!
@@ -798,11 +814,8 @@
                     //.catch((error) => console.error("Error:", error))
                     .then((data) => {
                         console.log(data)
-
                     });
             }
-
-
         });
 
     </script>
