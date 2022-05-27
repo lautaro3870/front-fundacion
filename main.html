@@ -123,8 +123,9 @@
             </div>
         </div>
         <br><br>
-        <div class="container-fluid">
-            <table id="users" class="dataTable table table-bordered table-striped text-center mt-4">
+        <div class="container">
+            <table id="users" class="dataTable table table-bordered table-striped text-center mt-4"
+                style="text-align: center;">
                 <thead>
                     <tr id="numero">
                         <th data-field="Id">Id</th>
@@ -135,6 +136,7 @@
                         <th data-field="MesFin">Mes Fin</th>
                         <th data-field="AnioFin">Año Fin</th>
                         <th data-field="Presupuesto">Presupuesto</th>
+                        <th data-field="Contratante">Contratante</th>
                         <th data-field="Areas">Areas Tematicas</th>
                         <th data-field="Departamentos">Departamentos</th>
                         <th data-field="FichaLista">Lista</th>
@@ -290,7 +292,7 @@
         }
 
         var mail = localStorage.getItem("email");
-        if (mail == "null" || mail === "undefined") {
+        if (mail == null || mail === "undefined") {
             Swal.fire({
                 icon: 'error',
                 title: 'Ingrese al sistema primero',
@@ -434,6 +436,7 @@
                 html += "<td>" + meses(mesesFin) + "</td>";
                 html += "<td>" + datos[i].anioFinalizacion + "</td>";
                 html += "<td>" + datos[i].moneda + " " + datos[i].montoContrato + "</td>";
+                html += "<td>" + datos[i].contratante + "</td>";
 
                 for (let j = 0; j < listaAreas.length; j++) {
                     if (j === listaAreas.length - 1) {

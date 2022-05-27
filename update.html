@@ -188,7 +188,7 @@
             <div class="form-group col-md-7">
                 <label>Personal</label>
                 <select id="txtPersonal" class="form-control">
-                    <option id="idOpcionPersonal" value="" selected>Seleccione</option>
+                    <option id="idOpcionPersonal" value="null" selected>Seleccione</option>
                 </select>
             </div>
             <button type="button" onclick="imprimirValorPersonal()" style="height: 40px; margin-top: 30px;"
@@ -214,7 +214,7 @@
             <div class="form-group col-md-7">
                 <label>Areas</label>
                 <select id="txtAreas" class="form-control">
-                    <option id="idOpcionArea" value="" selected>Seleccione</option>
+                    <option id="idOpcionArea" value="null" selected>Seleccione</option>
                 </select>
             </div>
             <button type="button" onclick="imprimirValorAreas()" style="height: 40px; margin-top: 30px;"
@@ -399,18 +399,40 @@
         $(document).on('click', '#txtCordinador', function () {
             // e.preventDefault();
             idPersonal = $(this).parent().parent().children().first().text();
-            console.log(id);
-            coordinadorOpcion = document.getElementById("txtCordinador").checked;
+            console.log(idPersonal);
 
-            for (const obj of objPersonal) {
-                if (obj.id == idPersonal) {
-                    obj.coordinador = coordinadorOpcion;
-                    coordinadorOpcion = false;
-                    break;
+
+
+            if ($(this).is(':checked')) {
+                for (const obj of objPersonal) {
+                    if (obj.id == idPersonal) {
+                        obj.coordinador = true;
+                        break;
+                    }
+                    //coordinadorOpcion = false;
+                }
+            } else {
+                for (const obj of objPersonal) {
+                    if (obj.id == idPersonal) {
+                        obj.coordinador = false;
+                        break;
+                    }
+                    //coordinadorOpcion = false;
                 }
             }
 
-            console.log(objPersonal)
+
+            // coordinadorOpcion = document.getElementById("txtCordinador").checked;
+
+            // for (const obj of objPersonal) {
+            //     if (obj.id == idPersonal) {
+            //         obj.coordinador = coordinadorOpcion;
+            //         coordinadorOpcion = false;
+            //         break;
+            //     }
+            // }
+
+            // console.log(objPersonal)
         });
 
         let personal = [];
@@ -464,18 +486,20 @@
             var personal = document.getElementById("txtPersonal").value;
             var combo = document.getElementById("txtPersonal");
             var nombre = combo.options[combo.selectedIndex].text;
-            // var cantidad = document.getElementById("txtCantidad").value;
-            // var precio = document.getElementById("txtPrecio").value;
-            //contador para asignar id al boton que borrara la fila
+
+            if (personal == "null") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Seleccione un Personal',
+                })
+                return false;
+            }
+
             var fila = '<tr id="row' + i + '"><td>' + personal + '</td><td>' + nombre + '</td><td><input type=checkbox onchange="mostrarCoordinador()" id="txtCordinador" /></td><td><button id="btnEliminarPersonal" onclick="removerPersonal(' + i + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
 
             i++;
 
             $('#mytable tr:first').after(fila);
-            // document.getElementById("txtPersonal").value = "";
-            // document.getElementById("txtCantidad").value = "";
-            // document.getElementById("txtPrecio").value = "";
-            // document.getElementById("txtIdArticulo").focus();
         }
 
 
@@ -565,6 +589,14 @@
             var area = document.getElementById("txtAreas").value;
             var combo = document.getElementById("txtAreas");
             var nombre = combo.options[combo.selectedIndex].text;
+
+            if (area == "null") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Seleccione un Area',
+                })
+                return false;
+            }
             var fila = '<tr id="rowArea' + indexArea + '"><td>' + area + '</td><td>' + nombre + '</td><td><button id="btnEliminarArea" onclick="removerArea(' + indexArea + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
 
             indexArea++;
@@ -590,7 +622,7 @@
             });
         }
 
-        var id = localStorage.getItem("idProyecto");
+        var idProyectoUpdate = localStorage.getItem("idProyecto");
 
         //Publicacion
         var indexPublicacion = 0;
@@ -722,7 +754,7 @@
         var depto = document.getElementById("txtDepartamento");
         var deptoSeleccionado = depto.options[depto.selectedIndex].text;
 
-        fetch('https://proyecto-fundacion.herokuapp.com/api/Proyecto/' + id)
+        fetch('https://proyecto-fundacion.herokuapp.com/api/Proyecto/' + idProyectoUpdate)
             .then(response => response.json())
             .then((data) => {
                 console.log(data);
@@ -821,7 +853,7 @@
             // comboFichaSeleccionada = comboFicha2.options[comboFicha2.selectedIndex].text;
 
             var data = {
-                id: parseInt(id),
+                id: parseInt(idProyectoUpdate),
                 titulo: document.getElementById("txtTitulo").value,
                 paisRegion: document.getElementById("txtPais").value,
                 contratante: document.getElementById("txtContratante").value,

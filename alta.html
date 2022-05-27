@@ -10,14 +10,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-
-
     <script src="https://unpkg.com/boxicons@2.1.1/dist/boxicons.js"></script>
 
-
     <link rel="stylesheet" href="estilos.css">
-
-
 
     <title>Alta</title>
 </head>
@@ -197,7 +192,7 @@
             <div class="form-group col-md-7">
                 <label>Personal</label>
                 <select id="txtPersonal" class="form-control">
-                    <option id="idOpcionPersonal" value="" selected>Seleccione</option>
+                    <option id="idOpcionPersonal" value="null" selected>Seleccione</option>
                 </select>
             </div>
             <button type="button" onclick="imprimirValorPersonal()" style="height: 40px; margin-top: 30px;"
@@ -223,7 +218,7 @@
             <div class="form-group col-md-7">
                 <label>Areas</label>
                 <select id="txtAreas" class="form-control">
-                    <option id="idOpcionArea" value="" selected>Seleccione</option>
+                    <option id="idOpcionArea" value="null" selected>Seleccione</option>
                 </select>
             </div>
             <button type="button" onclick="imprimirValorAreas()" style="height: 40px; margin-top: 30px;"
@@ -410,24 +405,28 @@
             }
         }
 
-
-
         $(document).on('click', '#txtCordinador', function () {
             // e.preventDefault();
             id = $(this).parent().parent().children().first().text();
             console.log(id);
-            coordinadorOpcion = document.getElementById("txtCordinador").checked;
 
-            for (const obj of objPersonal) {
-                if (obj.id === id) {
-                    obj.coordinador = coordinadorOpcion;
-                    coordinadorOpcion = false;
-                    break;
+            if ($(this).is(':checked')) {
+                for (const obj of objPersonal) {
+                    if (obj.id == id) {
+                        obj.coordinador = true;
+                        break;
+                    }
+                    //coordinadorOpcion = false;
                 }
-
+            } else {
+                for (const obj of objPersonal) {
+                    if (obj.id == id) {
+                        obj.coordinador = false;
+                        break;
+                    }
+                    //coordinadorOpcion = false;
+                }
             }
-
-            console.log(objPersonal)
         });
 
         let personal = [];
@@ -487,9 +486,15 @@
             var combo = document.getElementById("txtPersonal");
             console.log(combo)
             var nombre = combo.options[combo.selectedIndex].text;
-            // var cantidad = document.getElementById("txtCantidad").value;
-            // var precio = document.getElementById("txtPrecio").value;
-            //i = 1;//contador para asignar id al boton que borrara la fila
+
+            if (personal == "null") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Seleccione un Personal',
+                })
+                return false;
+            }
+
             var fila = '<tr id="row' + i + '"><td>' + personal + '</td><td>' + nombre + '</td><td><input  type=checkbox id="txtCordinador" /></td><td><button id="btnEliminarPersonal" onclick="removerPersonal(' + i + ')" type=button><box-icon name="trash"></box-icon></button></td></tr>';
 
             i++;
@@ -550,9 +555,15 @@
             var area = document.getElementById("txtAreas").value;
             var combo = document.getElementById("txtAreas");
             var nombre = combo.options[combo.selectedIndex].text;
-            // var cantidad = document.getElementById("txtCantidad").value;
-            // var precio = document.getElementById("txtPrecio").value;
-            //contador para asignar id al boton que borrara la fila
+
+            if (area == "null") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Seleccione un Area',
+                })
+                return false;
+            }
+
             var fila = '<tr id="rowArea' + indexArea + '"><td>' + area + '</td><td>' + nombre + '</td><td><button onclick="removerArea(' + indexArea + ')" id="btnEliminarArea" type=button><box-icon name="trash"></box-icon></button></td></tr>';
 
             indexArea++;
@@ -701,6 +712,7 @@
         $(document).ready(function () {
             fichaSeleccionada();
         });
+
         var comboFicha;
         var comboFichaSeleccionada;
 
