@@ -82,6 +82,7 @@
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
                     <option value="PESOS">PESOS</option>
+                    <option value="ECU">ECU</option>
                 </select>
             </div>
             <div class="form-group col-md-2">
@@ -210,6 +211,9 @@
                 </tbody>
             </div>
 
+            <br>
+            <hr>
+
             <!-- Areas -->
             <div class="form-group col-md-7">
                 <label>Areas</label>
@@ -235,6 +239,9 @@
                 </tbody>
             </div>
         </div>
+
+        <br>
+        <hr>
 
         <div class="form-row">
             <div class="form-group col-md-4">
@@ -401,8 +408,6 @@
             idPersonal = $(this).parent().parent().children().first().text();
             console.log(idPersonal);
 
-
-
             if ($(this).is(':checked')) {
                 for (const obj of objPersonal) {
                     if (obj.id == idPersonal) {
@@ -421,18 +426,6 @@
                 }
             }
 
-
-            // coordinadorOpcion = document.getElementById("txtCordinador").checked;
-
-            // for (const obj of objPersonal) {
-            //     if (obj.id == idPersonal) {
-            //         obj.coordinador = coordinadorOpcion;
-            //         coordinadorOpcion = false;
-            //         break;
-            //     }
-            // }
-
-            // console.log(objPersonal)
         });
 
         let personal = [];
@@ -622,8 +615,6 @@
             });
         }
 
-        var idProyectoUpdate = localStorage.getItem("idProyecto");
-
         //Publicacion
         var indexPublicacion = 0;
         let publicacionBtn = document.getElementById("btnPublicacion");
@@ -712,10 +703,6 @@
             console.log(removido);
             console.log(indexPublicacion)
 
-            //idPubli = $(this).parent().parent().children().first().text();
-            //codigoBcs = document.getElementById("txtCodigoBcs").value;
-
-
             const eliminadoPublicacion = objPublicacion.findIndex(object => {
                 return object.idPublicacion == removido;
             });
@@ -743,6 +730,7 @@
             });
         })
 
+        var idProyectoUpdate = localStorage.getItem("idProyecto");
 
         let enEjecucion = document.getElementById("txtEjecucion").checked;
         console.log(enEjecucion);
@@ -829,8 +817,6 @@
 
             })
 
-
-
         let boton = document.getElementById("enviar");
         boton.addEventListener("click", (e) => {
             e.preventDefault();
@@ -890,10 +876,10 @@
                     "Content-Type": "application/json",
                 },
             })
-                .then((res) => res)
+                .then((res) => res.json())
                 //.catch((error) => console.error("Error:", error))
                 .then((data) => {
-                    if (data.status == 200) {
+                    if (data) {
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
