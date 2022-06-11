@@ -53,16 +53,14 @@
     <div class="container">
 
         <div class="class-row">
-            <div class="form-group col-md-5">
-            </div>
-
             <div class="card-body d-flex">
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+                <button type="button" class="btn btn-primary" style="margin-right: 20px;" data-toggle="modal"
+                    data-target="#exampleModal">
                     Filtrar Tabla
                 </button>
-                <!-- <button type="button" id="imprimir" class="btn btn-secondary ml-auto">
-                    Imprimir Seleccionados
-                </button> -->
+                <button id="btnImprimirListado" class="btn btn-secondary" style="margin-right: 20px;">Imprimir
+                    Filtrado</button>
+                <button id="btnImprimirTodo" class="btn btn-dark">Imprimir Todo</button>
                 <button type="button" id="idBorrarFiltros" class="btn btn-danger ml-auto">
                     Borrar Filtros
                 </button>
@@ -124,8 +122,7 @@
         </div>
         <br><br>
         <div class="container">
-            <table id="users" class="dataTable table table-bordered table-striped text-center mt-4"
-                style="text-align: center;">
+            <table id="users" class="table table-striped table-bordered" style="width: 100%;">
                 <thead>
                     <tr id="numero">
                         <th data-field="Id">Id</th>
@@ -174,6 +171,24 @@
 
     <script>
 
+        let imprimirListado = document.getElementById("btnImprimirListado");
+        imprimirListado.addEventListener("click", e => {
+            e.preventDefault();
+
+            window.location = "/imprimirListado.html"
+        })
+
+        let imprimirTodo = document.getElementById("btnImprimirTodo");
+        imprimirTodo.addEventListener("click", e => {
+            e.preventDefault();
+            localStorage.setItem("anioInicio", "");
+            localStorage.setItem("anioFin", "");
+            localStorage.setItem("pais", "");
+            localStorage.setItem("areas", "");
+            localStorage.setItem("depto", "");
+
+            window.location = "/imprimirListado.html"
+        })
 
         fetch("https://proyecto-fundacion.herokuapp.com/api/Areas")
             .then((response) => response.json())
@@ -213,15 +228,20 @@
 
             $("#users > tbody").empty();
 
-            var desde = document.getElementById("anioInicio");
-            var hasta = document.getElementById("anioFin");
+            var desde = document.getElementById("anioInicio").value;
+            var hasta = document.getElementById("anioFin").value;
             var pais = document.getElementById("pais").value;
             var area = document.getElementById("txtAreas").value;
             var depto = document.getElementById("txtDepartamento").value;
             //var deptoSeleccionado = depto.options[depto.selectedIndex].text;
 
+            localStorage.setItem("anioInicio", desde);
+            localStorage.setItem("anioFin", hasta);
+            localStorage.setItem("pais", pais);
+            localStorage.setItem("areas", area);
+            localStorage.setItem("depto", depto);
 
-            fetch(`https://proyecto-fundacion.herokuapp.com/api/Proyecto?Id=&Titulo=&Pais=${pais}&MesInicio=&MesFin=&AnioInicio=${desde.value}&AnioFin=${hasta.value}&Departamento=${depto}&Area=${area}`)
+            fetch(`https://proyecto-fundacion.herokuapp.com/api/Proyecto?Pais=${pais}&MesInicio=&MesFin=&AnioInicio=${desde}&AnioFin=${hasta}&Departamento=${depto}&Area=${area}`)
                 .then(response => response.json())
                 .then((data) => {
 
@@ -474,10 +494,6 @@
             window.location = "/index.html";
         }
 
-        let botonImprimir = document.getElementById("imprimir");
-        botonImprimir.addEventListener("click", () => {
-            console.log(datosSeleccionados)
-        })
 
     </script>
 </body>
